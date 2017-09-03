@@ -13,7 +13,7 @@ class ChallengeList extends React.Component {
               <tr className="thead-row">
                 <th className="text-centered challenge-name">Challenge Name</th>
                 <th className="text-centered challenge-info">Author</th>
-                <th className="text-centered challenge-info">Difficulty</th>
+                <th className="text-centered challenge-info">Difficulty*</th>
               </tr>
             </thead>
             <tbody>
@@ -28,6 +28,7 @@ class ChallengeList extends React.Component {
               })}
             </tbody>
           </table>
+          <p className="text-centered">*Difficulty increases at lower Kyu ratings</p>
         </div>
       </div>
     )
