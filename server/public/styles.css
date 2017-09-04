@@ -10,5 +10,31 @@
 }
 
 h1 {
-  margin: 50px;
+  font-size: 3.5em;
+  margin: 50px 50px 10px;
+}
+
+.user-name {
+  margin: 0 0 50px;
+}
+
+td {
+  font-size: 1.25em;
+}
+
+thead {
+  font-size: 1.5em;
+  background-color: lightgrey;
+}
+
+#background {
+  background-color: black;
+  height: 100%;
+  position: absolute;
+}
+
+#foreground {
+  background-color: whitesmoke;
+  height: 100%;
+  position: absolute;
 }
