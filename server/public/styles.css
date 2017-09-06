@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Muli', sans-serif;
+}
+
+.text-centered {
+  text-align: center;
+}
+
+h1 {
+  font-size: 3.5em;
+  margin: 50px 50px 10px;
+}
+
+.user-name {
+  margin: 0 0 50px;
+}
+
+td {
+  font-size: 1.25em;
+}
+
+thead {
+  font-size: 1.5em;
+  background-color: lightgrey;
+}
+
+#background {
+  background-color: black;
+  height: 100%;
+  position: absolute;
+}
+
+#foreground {
+  background-color: whitesmoke;
+  height: 100%;
+  position: absolute;
+}
