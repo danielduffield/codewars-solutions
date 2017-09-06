@@ -2,6 +2,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "cover": "nyc --reporter=lcov npm run test:mocha",
     "lint": "run-p lint:*",
     "lint:html": "htmlhint ./**/*.html",
     "lint:css": "stylelint ./**/*.css",
