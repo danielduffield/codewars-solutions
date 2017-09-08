@@ -1,10 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
-export default class ChallengeSubmitForm extends React.Component {
+class ChallengeSubmitForm extends React.Component {
+  constructor(props) {
+    super(props)
+    this.updateView = this.updateView.bind(this)
+  }
+  updateView(event) {
+    this.props.dispatch({
+      type: 'UPDATED_VIEW',
+      payload: {
+        text: event.target.dataset.view
+      }
+    })
+  }
   render() {
     return (
-      <SubmitFormContainer>
+      <SubmitFormContainer className={this.props.view === 'submitForm' ? '' : 'hidden'}>
         <h3>Submit a New Challenge</h3>
         <UrlForm>
           <div className="input-group col-sm-6 col-sm-offset-3">
@@ -14,19 +27,27 @@ export default class ChallengeSubmitForm extends React.Component {
             </span>
           </div>
         </UrlForm>
-        <button className="btn btn-default">Return to Challenge List</button>
+        <button className="btn btn-default"
+          onClick={this.updateView} data-view="challengeList">Return to Challenge List</button>
       </SubmitFormContainer>
     )
   }
 }
 
 const SubmitFormContainer = styled.div`
-  margin-top: 20px;
   padding: 20px;
-  background-color: grey;
   text-align: center;
 `
 
 const UrlForm = styled.form`
   margin: 25px;
 `
+
+function mapStateToProps(state) {
+  return {
+    view: state.view
+  }
+}
+
+const Connected = connect(mapStateToProps)(ChallengeSubmitForm)
+export default Connected
