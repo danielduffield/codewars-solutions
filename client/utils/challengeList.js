@@ -5,13 +5,13 @@ import styled from 'styled-components'
 class ChallengeList extends React.Component {
   render() {
     return (
-      <div className="challenge-list-container">
-        <table className="table table-bordered text-centered">
+      <div className="challenge-list-container text-center">
+        <table className="table table-bordered">
           <thead>
             <tr className="thead-row">
-              <th className="text-centered challenge-name">Challenge Name</th>
-              <th className="text-centered challenge-info">Author</th>
-              <th className="text-centered challenge-info">Difficulty*</th>
+              <th className="text-center challenge-name">Challenge Name</th>
+              <th className="text-center challenge-info">Author</th>
+              <th className="text-center challenge-info">Difficulty*</th>
             </tr>
           </thead>
           <tbody>
@@ -34,7 +34,10 @@ class ChallengeList extends React.Component {
             })}
           </tbody>
         </table>
-        <p className="text-centered">*Difficulty increases at lower Kyu ratings</p>
+        <p className="text-center">*Difficulty increases at lower Kyu ratings</p>
+        <buttonContainer className="text-center">
+          <button type="button" className="btn btn-default">Submit a new challenge.</button>
+        </buttonContainer>
       </div>
     )
   }
@@ -55,6 +58,11 @@ const ChallengeAuthor = styled.td`
 
 const ChallengeDifficulty = styled.td`
   width: 15%;
+`
+
+const buttonContainer = styled.div`
+  width: 100%;
+  text-align: center;
 `
 
 function mapStateToProps(state) {
