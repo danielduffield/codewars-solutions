@@ -6,6 +6,8 @@ class ChallengeSubmitForm extends React.Component {
   constructor(props) {
     super(props)
     this.updateView = this.updateView.bind(this)
+    this.processForm = this.processForm.bind(this)
+    this.handleUrlSubmission = this.handleUrlSubmission.bind(this)
   }
   updateView(event) {
     this.props.dispatch({
@@ -15,15 +17,24 @@ class ChallengeSubmitForm extends React.Component {
       }
     })
   }
+  processForm(form, fieldId) {
+    return form.get(fieldId)
+  }
+  handleUrlSubmission(event) {
+    event.preventDefault()
+    const url = this.processForm(new FormData(event.target), 'url-input-field')
+    console.log(url)
+  }
   render() {
     return (
       <SubmitFormContainer className={this.props.view === 'submitForm' ? '' : 'hidden'}>
         <h3>Submit a New Challenge</h3>
-        <UrlForm>
+        <UrlForm onSubmit={this.handleUrlSubmission}>
           <div className="input-group col-sm-6 col-sm-offset-3">
-            <input type="text" className="form-control" placeholder="Enter a Codewars Url" />
+            <input type="text" className="form-control"
+              name="url-input-field" placeholder="Enter a Codewars Url" />
             <span className="input-group-btn">
-              <button className="btn btn-default" type="button">Submit</button>
+              <button className="btn btn-default" type="submit">Submit</button>
             </span>
           </div>
         </UrlForm>
