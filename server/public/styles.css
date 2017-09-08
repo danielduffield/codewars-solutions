@@ -5,6 +5,10 @@
   font-family: 'Muli', sans-serif;
 }
 
+.hidden {
+  display: none;
+}
+
 h1 {
   font-size: 3.5em;
   margin: 50px 50px 10px;
