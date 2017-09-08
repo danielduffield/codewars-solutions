@@ -35,9 +35,7 @@ class ChallengeList extends React.Component {
           </tbody>
         </table>
         <p className="text-center">*Difficulty increases at lower Kyu ratings</p>
-        <buttonContainer className="text-center">
-          <button type="button" className="btn btn-default">Submit a new challenge.</button>
-        </buttonContainer>
+        <button type="button" className="btn btn-default">Submit a new challenge.</button>
       </div>
     )
   }
@@ -58,11 +56,6 @@ const ChallengeAuthor = styled.td`
 
 const ChallengeDifficulty = styled.td`
   width: 15%;
-`
-
-const buttonContainer = styled.div`
-  width: 100%;
-  text-align: center;
 `
 
 function mapStateToProps(state) {
