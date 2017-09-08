@@ -22,6 +22,7 @@ export default class ChallengeSubmitForm extends React.Component {
 
 const SubmitFormContainer = styled.div`
   margin-top: 20px;
+  padding: 20px;
   background-color: grey;
   text-align: center;
 `
