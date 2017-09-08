@@ -3,9 +3,21 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 class ChallengeList extends React.Component {
+  constructor(props) {
+    super(props)
+    this.updateView = this.updateView.bind(this)
+  }
+  updateView(event) {
+    this.props.dispatch({
+      type: 'UPDATED_VIEW',
+      payload: {
+        text: event.target.dataset.view
+      }
+    })
+  }
   render() {
     return (
-      <div className="challenge-list-container text-center">
+      <div className={this.props.view === 'challengeList' ? 'text-center' : 'hidden'}>
         <table className="table table-bordered">
           <thead>
             <tr className="thead-row">
@@ -35,7 +47,8 @@ class ChallengeList extends React.Component {
           </tbody>
         </table>
         <p className="text-center">*Difficulty increases at lower Kyu ratings</p>
-        <button type="button" className="btn btn-default">Submit a new challenge.</button>
+        <button type="button" className="btn btn-default"
+          onClick={this.updateView} data-view="submitForm">Submit a new challenge.</button>
       </div>
     )
   }
@@ -60,6 +73,7 @@ const ChallengeDifficulty = styled.td`
 
 function mapStateToProps(state) {
   return {
+    view: state.view,
     challenges: state.challenges
   }
 }
