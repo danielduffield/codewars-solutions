@@ -18,8 +18,16 @@ class ChallengeList extends React.Component {
             {this.props.challenges.map((challenge, index) => {
               return (
                 <tr key={index}>
-                  <ChallengeName>{challenge.name}</ChallengeName>
-                  <ChallengeAuthor>{challenge.author}</ChallengeAuthor>
+                  <ChallengeName>
+                    <ChallengeLink href={challenge.url}>
+                      {challenge.name}
+                    </ChallengeLink>
+                  </ChallengeName>
+                  <ChallengeAuthor>
+                    <ChallengeLink href={challenge.authorUrl}>
+                      {challenge.author}
+                    </ChallengeLink>
+                  </ChallengeAuthor>
                   <ChallengeDifficulty>{challenge.difficulty}</ChallengeDifficulty>
                 </tr>
               )
@@ -34,6 +42,11 @@ class ChallengeList extends React.Component {
 
 const ChallengeName = styled.td`
   width: 65%;
+`
+
+const ChallengeLink = styled.a`
+  text-decoration: none;
+  color: black;
 `
 
 const ChallengeAuthor = styled.td`
