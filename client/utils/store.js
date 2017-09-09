@@ -15,6 +15,11 @@ function reducer(state = {
   switch (action.type) {
     case 'UPDATED_VIEW':
       return Object.assign({}, state, { view: action.payload.text })
+    case 'ADDED_CHALLENGE':
+      return Object.assign({}, state, {
+        view: 'challengeList',
+        challenges: [...state.challenges, action.payload]
+      })
     default: return state
   }
 }
