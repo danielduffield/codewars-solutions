@@ -31,7 +31,13 @@ class ChallengeSubmitForm extends React.Component {
         'Accept': 'application/json'
       },
       body: JSON.stringify({ url })
-    }).then(response => console.log(response))
+    }).then(response => response.json())
+    .then(data => {
+      const $challengePage = document.createElement('html')
+      $challengePage.innerHTML = data.body
+      const challengeName = $challengePage.querySelector('h4').textContent
+      console.log(challengeName)
+    })
   }
   render() {
     return (
