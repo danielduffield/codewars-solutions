@@ -71,13 +71,13 @@ const UrlForm = styled.form`
 function scrapeChallengeData(htmlData, url) {
   const $challengePage = document.createElement('html')
   $challengePage.innerHTML = htmlData.body
-  const challengeName = $challengePage.querySelector('h4').textContent
+  const name = $challengePage.querySelector('h4').textContent
   const authorData = $challengePage
     .querySelector('i.icon-moon-user').parentNode.href
   const author = authorData.split('/')[authorData.split('/').length - 1]
   const authorUrl = 'https://www.codewars.com/users/' + author
   const difficulty = $challengePage.querySelector('.inner-small-hex.is-extra-wide').firstChild.textContent
-  return { challengeName, url, author, authorUrl, difficulty }
+  return { name, url, author, authorUrl, difficulty }
 }
 
 function mapStateToProps(state) {
