@@ -8,6 +8,7 @@ class ChallengeSubmitForm extends React.Component {
     this.updateView = this.updateView.bind(this)
     this.processForm = this.processForm.bind(this)
     this.handleUrlSubmission = this.handleUrlSubmission.bind(this)
+    this.updateChallengeList = this.updateChallengeList.bind(this)
   }
   updateView(event) {
     this.props.dispatch({
@@ -19,6 +20,12 @@ class ChallengeSubmitForm extends React.Component {
   }
   processForm(form, fieldId) {
     return form.get(fieldId)
+  }
+  updateChallengeList(challengeData) {
+    this.props.dispatch({
+      type: 'ADDED_CHALLENGE',
+      payload: challengeData
+    })
   }
   handleUrlSubmission(event) {
     event.preventDefault()
@@ -35,6 +42,7 @@ class ChallengeSubmitForm extends React.Component {
     .then(htmlData => {
       const challengeData = scrapeChallengeData(htmlData, url)
       console.log(challengeData)
+      this.updateChallengeList(challengeData)
     })
   }
   render() {
