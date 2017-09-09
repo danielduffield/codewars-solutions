@@ -32,7 +32,9 @@ class ChallengeSubmitForm extends React.Component {
         <UrlForm onSubmit={this.handleUrlSubmission}>
           <div className="input-group col-sm-6 col-sm-offset-3">
             <input type="text" className="form-control"
-              name="url-input-field" placeholder="Enter a Codewars Url" />
+              name="url-input-field" placeholder="Enter a Codewars Kata URL"
+              pattern="(https:\/\/www\.codewars\.com\/kata\/(.*)|www\.codewars\.com\/kata\/(.*)|codewars\.com\/kata\/(.*))"
+              title="https://www.codewars.com/kata/CHALLENGE-URL" required />
             <span className="input-group-btn">
               <button className="btn btn-default" type="submit">Submit</button>
             </span>
