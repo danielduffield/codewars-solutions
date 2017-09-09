@@ -23,7 +23,6 @@ class ChallengeSubmitForm extends React.Component {
   handleUrlSubmission(event) {
     event.preventDefault()
     const url = this.processForm(new FormData(event.target), 'url-input-field')
-    console.log(url)
     fetch('/submit-url', {
       method: 'POST',
       headers: {
@@ -31,12 +30,11 @@ class ChallengeSubmitForm extends React.Component {
         'Accept': 'application/json'
       },
       body: JSON.stringify({ url })
-    }).then(response => response.json())
-    .then(data => {
-      const $challengePage = document.createElement('html')
-      $challengePage.innerHTML = data.body
-      const challengeName = $challengePage.querySelector('h4').textContent
-      console.log(challengeName)
+    })
+    .then(response => response.json())
+    .then(htmlData => {
+      const challengeData = scrapeChallengeData(htmlData, url)
+      console.log(challengeData)
     })
   }
   render() {
@@ -69,6 +67,18 @@ const SubmitFormContainer = styled.div`
 const UrlForm = styled.form`
   margin: 25px;
 `
+
+function scrapeChallengeData(htmlData, url) {
+  const $challengePage = document.createElement('html')
+  $challengePage.innerHTML = htmlData.body
+  const challengeName = $challengePage.querySelector('h4').textContent
+  const authorData = $challengePage
+    .querySelector('i.icon-moon-user').parentNode.href
+  const author = authorData.split('/')[authorData.split('/').length - 1]
+  const authorUrl = 'https://www.codewars.com/users/' + author
+  const difficulty = $challengePage.querySelector('.inner-small-hex.is-extra-wide').firstChild.textContent
+  return { challengeName, url, author, authorUrl, difficulty }
+}
 
 function mapStateToProps(state) {
   return {
