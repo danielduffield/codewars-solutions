@@ -24,6 +24,14 @@ class ChallengeSubmitForm extends React.Component {
     event.preventDefault()
     const url = this.processForm(new FormData(event.target), 'url-input-field')
     console.log(url)
+    fetch('/submit-url', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ url })
+    }).then(response => console.log(response))
   }
   render() {
     return (
