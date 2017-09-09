@@ -14,6 +14,9 @@ app.post('/submit-url', (req, res) => {
   console.log(req.body.url)
   getCodewarsChallenge(req.body.url).then(response => {
     res.status(201).send(response)
+  }).catch(err => {
+    console.log(err)
+    res.sendStatus(400)
   })
 })
 
