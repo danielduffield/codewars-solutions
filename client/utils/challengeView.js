@@ -3,6 +3,18 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 class ChallengeView extends React.Component {
+  constructor(props) {
+    super(props)
+    this.updateView = this.updateView.bind(this)
+  }
+  updateView(event) {
+    this.props.dispatch({
+      type: 'UPDATED_VIEW',
+      payload: {
+        text: event.target.dataset.view
+      }
+    })
+  }
   render() {
     return (
       <div className={this.props.view === 'challengeView' ? '' : 'hidden'}>
