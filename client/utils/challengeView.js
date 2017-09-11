@@ -12,7 +12,9 @@ class ChallengeView extends React.Component {
           <ChallengeDetails>
             <ul>
               <ChallengeDetail>{'Name: ' + this.props.selectedChallenge.name}</ChallengeDetail>
-              <ChallengeDetail>{'URL: ' + this.props.selectedChallenge.url}</ChallengeDetail>
+              <ChallengeDetail>{'URL: '}
+                <a href={this.props.selectedChallenge.url}>{this.props.selectedChallenge.url}</a>
+              </ChallengeDetail>
               <ChallengeDetail>{'Difficulty: ' + this.props.selectedChallenge.difficulty}</ChallengeDetail>
               <ChallengeDetail>{'Author: '}
                 <a href={this.props.selectedChallenge.authorUrl}>
