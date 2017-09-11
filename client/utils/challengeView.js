@@ -7,23 +7,27 @@ class ChallengeView extends React.Component {
     return (
       <div className={this.props.view === 'challengeView' ? '' : 'hidden'}>
         <ChallengeTitle className="text-center">{'Codewars Challenge: ' + this.props.selectedChallenge.name}</ChallengeTitle>
-        <ChallengeDetails>
+        <ChallengeContainer>
           <h4>Challenge Details</h4>
-          <ul>
-            <ChallengeDetail>{'Name: ' + this.props.selectedChallenge.name}</ChallengeDetail>
-            <ChallengeDetail>{'URL: ' + this.props.selectedChallenge.url}</ChallengeDetail>
-            <ChallengeDetail>{'Difficulty: ' + this.props.selectedChallenge.difficulty}</ChallengeDetail>
-            <ChallengeDetail>{'Author: '}
-              <a href={this.props.selectedChallenge.authorUrl}>
-                {this.props.selectedChallenge.author}
-              </a>
-            </ChallengeDetail>
-          </ul>
-        </ChallengeDetails>
-        <ChallengeDescription>
+          <ChallengeDetails>
+            <ul>
+              <ChallengeDetail>{'Name: ' + this.props.selectedChallenge.name}</ChallengeDetail>
+              <ChallengeDetail>{'URL: ' + this.props.selectedChallenge.url}</ChallengeDetail>
+              <ChallengeDetail>{'Difficulty: ' + this.props.selectedChallenge.difficulty}</ChallengeDetail>
+              <ChallengeDetail>{'Author: '}
+                <a href={this.props.selectedChallenge.authorUrl}>
+                  {this.props.selectedChallenge.author}
+                </a>
+              </ChallengeDetail>
+            </ul>
+          </ChallengeDetails>
+        </ChallengeContainer>
+        <ChallengeContainer>
           <h4>Challenge Description</h4>
-          <p>{this.props.selectedChallenge.description}</p>
-        </ChallengeDescription>
+          <ChallengeDescription>
+            <p>{this.props.selectedChallenge.description}</p>
+          </ChallengeDescription>
+        </ChallengeContainer>
       </div>
     )
   }
@@ -33,18 +37,24 @@ const ChallengeTitle = styled.h3`
   font-weight: bold;
 `
 
-const ChallengeDetails = styled.div`
+const ChallengeContainer = styled.div`
+  margin-top: 20px;
   padding: 10px;
   background-color: lightgrey;
 `
 
-const ChallengeDescription = styled.div`
-  padding: 10px;
-  background-color: lightgrey;
+const ChallengeDetails = styled.div`
+  padding: 10px 20px 20px;
+  background-color: grey;
 `
 
 const ChallengeDetail = styled.li`
   margin: 20px 0 0 20px;
+`
+
+const ChallengeDescription = styled.div`
+  padding: 30px;
+  background-color: grey;
 `
 
 function mapStateToProps(state) {
