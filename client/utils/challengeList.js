@@ -3,30 +3,52 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 class ChallengeList extends React.Component {
+  constructor(props) {
+    super(props)
+    this.updateView = this.updateView.bind(this)
+  }
+  updateView(event) {
+    this.props.dispatch({
+      type: 'UPDATED_VIEW',
+      payload: {
+        text: event.target.dataset.view
+      }
+    })
+  }
   render() {
     return (
-      <div className="challenge-list-container">
-        <table className="table table-bordered text-centered">
+      <div className={this.props.view === 'challengeList' ? 'text-center' : 'hidden'}>
+        <table className="table table-bordered">
           <thead>
             <tr className="thead-row">
-              <th className="text-centered challenge-name">Challenge Name</th>
-              <th className="text-centered challenge-info">Author</th>
-              <th className="text-centered challenge-info">Difficulty*</th>
+              <th className="text-center challenge-name">Challenge Name</th>
+              <th className="text-center challenge-info">Author</th>
+              <th className="text-center challenge-info">Difficulty*</th>
             </tr>
           </thead>
           <tbody>
             {this.props.challenges.map((challenge, index) => {
               return (
                 <tr key={index}>
-                  <ChallengeName>{challenge.name}</ChallengeName>
-                  <ChallengeAuthor>{challenge.author}</ChallengeAuthor>
+                  <ChallengeName>
+                    <ChallengeLink href={challenge.url}>
+                      {challenge.name}
+                    </ChallengeLink>
+                  </ChallengeName>
+                  <ChallengeAuthor>
+                    <ChallengeLink href={challenge.authorUrl}>
+                      {challenge.author}
+                    </ChallengeLink>
+                  </ChallengeAuthor>
                   <ChallengeDifficulty>{challenge.difficulty}</ChallengeDifficulty>
                 </tr>
               )
             })}
           </tbody>
         </table>
-        <p className="text-centered">*Difficulty increases at lower Kyu ratings</p>
+        <p className="text-center">*Difficulty increases at lower Kyu ratings</p>
+        <button type="button" className="btn btn-default"
+          onClick={this.updateView} data-view="submitForm">Submit a new challenge.</button>
       </div>
     )
   }
@@ -34,6 +56,11 @@ class ChallengeList extends React.Component {
 
 const ChallengeName = styled.td`
   width: 65%;
+`
+
+const ChallengeLink = styled.a`
+  text-decoration: none;
+  color: black;
 `
 
 const ChallengeAuthor = styled.td`
@@ -46,6 +73,7 @@ const ChallengeDifficulty = styled.td`
 
 function mapStateToProps(state) {
   return {
+    view: state.view,
     challenges: state.challenges
   }
 }
