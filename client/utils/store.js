@@ -3,6 +3,7 @@ import { createStore } from 'redux'
 function reducer(state = {
   view: 'challengeView',
   selectedChallenge: {
+    id: '1',
     url: 'http://www.codewars.com',
     name: 'testChallenge',
     author: 'testAuthor',
@@ -12,10 +13,20 @@ function reducer(state = {
   },
   challenges: [
     {
+      id: '1',
       url: 'http://www.codewars.com',
       name: 'testChallenge',
       author: 'testAuthor',
       authorUrl: 'http://www.codewars.com',
+      difficulty: '4 kyu',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    },
+    {
+      id: '2',
+      url: 'http://www.codewars.com/kata/snail',
+      name: 'Snail',
+      author: 'StevenBarragan',
+      authorUrl: 'http://www.codewars.com/user/stevenbarragan',
       difficulty: '4 kyu',
       description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
     }
