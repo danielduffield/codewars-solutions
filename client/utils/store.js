@@ -1,7 +1,7 @@
 import { createStore } from 'redux'
 
 function reducer(state = {
-  view: 'challengeList',
+  view: 'challengeView',
   challenges: [
     {
       url: 'http://www.codewars.com',
