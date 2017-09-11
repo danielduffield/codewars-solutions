@@ -42,6 +42,8 @@ class ChallengeView extends React.Component {
             <p>{this.props.selectedChallenge.description}</p>
           </ChallengeDescription>
         </ChallengeContainer>
+        <button className="btn btn-default"
+          onClick={this.updateView} data-view="challengeList">Return to Challenge List</button>
       </div>
     )
   }
