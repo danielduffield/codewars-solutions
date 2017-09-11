@@ -40,6 +40,10 @@ function reducer(state = {
         view: 'challengeList',
         challenges: [...state.challenges, action.payload]
       })
+    case 'UPDATED_SELECTED':
+      const selectedIndex = state.challenges.findIndex(challenge => challenge.id === action.payload.text)
+      const selected = state.challenges[selectedIndex]
+      return Object.assign({}, state, { selectedChallenge: selected, view: 'challengeView' })
     default: return state
   }
 }
