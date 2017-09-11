@@ -6,6 +6,7 @@ class ChallengeList extends React.Component {
   constructor(props) {
     super(props)
     this.updateView = this.updateView.bind(this)
+    this.updateSelected = this.updateSelected.bind(this)
   }
   updateView(event) {
     this.props.dispatch({
@@ -15,13 +16,14 @@ class ChallengeList extends React.Component {
       }
     })
   }
-  updatedSelected(event) {
-    this.props.dispatch({
+  updateSelected(event) {
+    console.log(event.target.dataset.id)
+    /* this.props.dispatch({
       type: 'UPDATED_SELECTED',
       payload: {
         text: event.target.dataset.id
       }
-    })
+    }) */
   }
   render() {
     return (
@@ -38,8 +40,10 @@ class ChallengeList extends React.Component {
             {this.props.challenges.map((challenge, index) => {
               return (
                 <tr key={index}>
-                  <ChallengeName data-id={challenge.id}>
-                    {challenge.name}
+                  <ChallengeName>
+                    <ChallengeLink href={'#'} data-id={challenge.id} onClick={this.updateSelected}>
+                      {challenge.name}
+                    </ChallengeLink>
                   </ChallengeName>
                   <ChallengeAuthor>
                     <ChallengeLink href={challenge.authorUrl}>
