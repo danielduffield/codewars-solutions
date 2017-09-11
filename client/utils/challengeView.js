@@ -42,8 +42,12 @@ class ChallengeView extends React.Component {
             <p>{this.props.selectedChallenge.description}</p>
           </ChallengeDescription>
         </ChallengeContainer>
-        <button className="btn btn-default"
-          onClick={this.updateView} data-view="challengeList">Return to Challenge List</button>
+        <ButtonContainer className="col-sm-6 col-sm-offset-3">
+          <button type="button" className="btn btn-default"
+            onClick={this.updateView} data-view="submitForm">Submit a new challenge.</button>
+          <SubmitButton className="btn btn-default"
+            onClick={this.updateView} data-view="challengeList">Return to Challenge List</SubmitButton>
+        </ButtonContainer>
       </div>
     )
   }
@@ -75,6 +79,14 @@ const ChallengeDetail = styled.li`
 const ChallengeDescription = styled.div`
   padding: 30px;
   background-color: lightgrey;
+`
+
+const ButtonContainer = styled.div`
+  margin-top: 10px;
+`
+
+const SubmitButton = styled.button`
+  float: right;
 `
 
 function mapStateToProps(state) {
