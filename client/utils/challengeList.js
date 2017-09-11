@@ -15,6 +15,14 @@ class ChallengeList extends React.Component {
       }
     })
   }
+  updatedSelected(event) {
+    this.props.dispatch({
+      type: 'UPDATED_SELECTED',
+      payload: {
+        text: event.target.dataset.id
+      }
+    })
+  }
   render() {
     return (
       <div className={this.props.view === 'challengeList' ? 'text-center' : 'hidden'}>
@@ -30,10 +38,8 @@ class ChallengeList extends React.Component {
             {this.props.challenges.map((challenge, index) => {
               return (
                 <tr key={index}>
-                  <ChallengeName>
-                    <ChallengeLink href={challenge.url}>
-                      {challenge.name}
-                    </ChallengeLink>
+                  <ChallengeName data-id={challenge.id}>
+                    {challenge.name}
                   </ChallengeName>
                   <ChallengeAuthor>
                     <ChallengeLink href={challenge.authorUrl}>
