@@ -22,10 +22,7 @@ app.post('/submit-url', (req, res) => {
 
 function getCodewarsChallenge(url) {
   return new Promise((resolve, reject) => {
-    request.get(url, (err, response, body) => {
-      if (err) return reject(err)
-      return resolve(response)
-    })
+    request.get(url, (err, response, body) => err ? reject(err) : resolve(response))
   })
 }
 
