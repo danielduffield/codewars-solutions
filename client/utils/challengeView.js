@@ -8,7 +8,7 @@ class ChallengeView extends React.Component {
       <div className={this.props.view === 'challengeView' ? '' : 'hidden'}>
         <ChallengeTitle className="text-center">{'Codewars Challenge: ' + this.props.selectedChallenge.name}</ChallengeTitle>
         <ChallengeContainer>
-          <h4>Challenge Details</h4>
+          <ChallengeSubtitle>Challenge Details</ChallengeSubtitle>
           <ChallengeDetails>
             <ul>
               <ChallengeDetail>{'Name: ' + this.props.selectedChallenge.name}</ChallengeDetail>
@@ -23,7 +23,7 @@ class ChallengeView extends React.Component {
           </ChallengeDetails>
         </ChallengeContainer>
         <ChallengeContainer>
-          <h4>Challenge Description</h4>
+          <ChallengeSubtitle>Challenge Description</ChallengeSubtitle>
           <ChallengeDescription>
             <p>{this.props.selectedChallenge.description}</p>
           </ChallengeDescription>
@@ -37,15 +37,19 @@ const ChallengeTitle = styled.h3`
   font-weight: bold;
 `
 
+const ChallengeSubtitle = styled.h4`
+  color: white;
+`
+
 const ChallengeContainer = styled.div`
   margin-top: 20px;
   padding: 10px;
-  background-color: lightgrey;
+  background-color: dimgrey;
 `
 
 const ChallengeDetails = styled.div`
   padding: 10px 20px 20px;
-  background-color: grey;
+  background-color: lightgrey;
 `
 
 const ChallengeDetail = styled.li`
@@ -54,7 +58,7 @@ const ChallengeDetail = styled.li`
 
 const ChallengeDescription = styled.div`
   padding: 30px;
-  background-color: grey;
+  background-color: lightgrey;
 `
 
 function mapStateToProps(state) {
