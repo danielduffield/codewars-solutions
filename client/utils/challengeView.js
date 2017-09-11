@@ -18,19 +18,19 @@ class ChallengeView extends React.Component {
   render() {
     return (
       <div className={this.props.view === 'challengeView' ? '' : 'hidden'}>
-        <ChallengeTitle className="text-center">{'Codewars Challenge: ' + this.props.selectedChallenge.name}</ChallengeTitle>
+        <ChallengeTitle className="text-center">{'Codewars Challenge: ' + this.props.selected.name}</ChallengeTitle>
         <ChallengeContainer>
           <ChallengeSubtitle>Challenge Details</ChallengeSubtitle>
           <ChallengeDetails>
             <ul>
-              <ChallengeDetail>{'Name: ' + this.props.selectedChallenge.name}</ChallengeDetail>
+              <ChallengeDetail>{'Name: ' + this.props.selected.name}</ChallengeDetail>
               <ChallengeDetail>{'URL: '}
-                <a href={this.props.selectedChallenge.url}>{this.props.selectedChallenge.url}</a>
+                <a href={this.props.selected.url}>{this.props.selected.url}</a>
               </ChallengeDetail>
-              <ChallengeDetail>{'Difficulty: ' + this.props.selectedChallenge.difficulty}</ChallengeDetail>
+              <ChallengeDetail>{'Difficulty: ' + this.props.selected.difficulty}</ChallengeDetail>
               <ChallengeDetail>{'Author: '}
-                <a href={this.props.selectedChallenge.authorUrl}>
-                  {this.props.selectedChallenge.author}
+                <a href={this.props.selected.authorUrl}>
+                  {this.props.selected.author}
                 </a>
               </ChallengeDetail>
             </ul>
@@ -39,7 +39,7 @@ class ChallengeView extends React.Component {
         <ChallengeContainer>
           <ChallengeSubtitle>Challenge Description</ChallengeSubtitle>
           <ChallengeDescription>
-            <p>{this.props.selectedChallenge.description ? this.props.selectedChallenge.description : 'No Description Found'}</p>
+            <p>{this.props.selected.description ? this.props.selected.description : 'No Description Found'}</p>
           </ChallengeDescription>
         </ChallengeContainer>
         <ButtonContainer className="col-sm-6 col-sm-offset-3">
@@ -92,7 +92,7 @@ const SubmitButton = styled.button`
 function mapStateToProps(state) {
   return {
     view: state.view,
-    selectedChallenge: state.selectedChallenge
+    selected: state.selectedChallenge
   }
 }
 
