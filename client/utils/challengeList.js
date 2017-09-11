@@ -17,13 +17,12 @@ class ChallengeList extends React.Component {
     })
   }
   updateSelected(event) {
-    console.log(event.target.dataset.id)
-    /* this.props.dispatch({
+    this.props.dispatch({
       type: 'UPDATED_SELECTED',
       payload: {
         text: event.target.dataset.id
       }
-    }) */
+    })
   }
   render() {
     return (
