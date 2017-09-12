@@ -39,7 +39,7 @@ class ChallengeView extends React.Component {
         <ChallengeContainer>
           <ChallengeSubtitle>Challenge Description</ChallengeSubtitle>
           <ChallengeDescription>
-            <p>{this.props.selected.description ? this.props.selected.description : 'No Description Found'}</p>
+            {this.props.selected.description ? this.props.selected.description : 'No Description Found'}
           </ChallengeDescription>
         </ChallengeContainer>
         <ButtonContainer className="col-sm-6 col-sm-offset-3">
