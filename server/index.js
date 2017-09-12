@@ -12,8 +12,9 @@ app.use(express.static('server/public'))
 
 app.post('/submit-url', (req, res) => {
   console.log(req.body.url)
-  getCodewarsChallenge(req.body.url).then(response => {
-    res.status(201).send(response)
+  const challengeApiUrl = parseUrl(req.body.url)
+  getCodewarsChallenge(challengeApiUrl).then(response => {
+    res.status(201).send(response.body)
   }).catch(err => {
     console.log(err)
     res.sendStatus(400)
@@ -24,6 +25,10 @@ function getCodewarsChallenge(url) {
   return new Promise((resolve, reject) => {
     request.get(url, (err, response, body) => err ? reject(err) : resolve(response))
   })
+}
+
+function parseUrl(url) {
+  return url.replace(/codewars.com\/kata\//, 'codewars.com/api/v1/code-challenges/')
 }
 
 module.exports = server
