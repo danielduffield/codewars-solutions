@@ -11,6 +11,7 @@ class ChallengeSubmitForm extends React.Component {
     this.updateView = this.updateView.bind(this)
     this.processForm = this.processForm.bind(this)
     this.handleUrlSubmission = this.handleUrlSubmission.bind(this)
+    this.updateUrlForm = this.updateUrlForm.bind(this)
     this.updateChallengeList = this.updateChallengeList.bind(this)
   }
   updateView(event) {
@@ -23,6 +24,14 @@ class ChallengeSubmitForm extends React.Component {
   }
   processForm(form, fieldId) {
     return form.get(fieldId)
+  }
+  updateUrlForm(event) {
+    this.props.dispatch({
+      type: 'UPDATED_URL_FORM',
+      payload: {
+        text: event.target.value
+      }
+    })
   }
   updateChallengeList(challengeData) {
     this.props.dispatch({
@@ -57,7 +66,8 @@ class ChallengeSubmitForm extends React.Component {
             <input type="text" className="form-control"
               name="url-input-field" placeholder="Enter a Codewars Kata URL"
               pattern="(https:\/\/www\.codewars\.com\/kata\/(.*)|www\.codewars\.com\/kata\/(.*)|codewars\.com\/kata\/(.*))"
-              title="https://www.codewars.com/kata/CHALLENGE-URL" required />
+              title="https://www.codewars.com/kata/CHALLENGE-URL"
+              value={this.props.urlForm} onChange={this.updateUrlForm} required />
             <span className="input-group-btn">
               <button className="btn btn-default" type="submit">Submit</button>
             </span>
@@ -94,6 +104,7 @@ function parseApiData(response) {
 
 function mapStateToProps(state) {
   return {
+    urlForm: state.urlForm,
     view: state.view
   }
 }
