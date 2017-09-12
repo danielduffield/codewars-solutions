@@ -39,8 +39,8 @@ class ChallengeSubmitForm extends React.Component {
       body: JSON.stringify({ url })
     })
     .then(response => response.json())
-    .then(htmlData => {
-      const challengeData = scrapeChallengeData(htmlData, url)
+    .then(apiData => {
+      const challengeData = parseApiData(apiData)
       console.log(challengeData)
       this.updateChallengeList(challengeData)
     })
@@ -76,16 +76,16 @@ const UrlForm = styled.form`
   margin: 25px;
 `
 
-function scrapeChallengeData(htmlData, url) {
-  const $challengePage = document.createElement('html')
-  $challengePage.innerHTML = htmlData.body
-  const name = $challengePage.querySelector('h4').textContent
-  const authorData = $challengePage
-    .querySelector('i.icon-moon-user').parentNode.href
-  const author = authorData.split('/')[authorData.split('/').length - 1]
-  const authorUrl = 'https://www.codewars.com/users/' + author
-  const difficulty = $challengePage.querySelector('.inner-small-hex.is-extra-wide').firstChild.textContent
-  return { name, url, author, authorUrl, difficulty }
+function parseApiData(response) {
+  const url = response.url
+  const name = response.name
+  const id = response.id
+  const author = response.createdBy.username
+  const authorUrl = response.createdBy.url
+  const difficulty = response.rank.name
+  const description = response.description
+
+  return { url, name, id, author, authorUrl, difficulty, description }
 }
 
 function mapStateToProps(state) {
