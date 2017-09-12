@@ -83,9 +83,19 @@ function parseApiData(response) {
   const author = response.createdBy.username
   const authorUrl = response.createdBy.url
   const difficulty = response.rank.name
-  const description = response.description
+  const description = parseDescription(response.description)
 
   return { url, name, id, author, authorUrl, difficulty, description }
+}
+
+function parseDescription(description) {
+  console.log(/\n/.test(description))
+  let count = 0
+  description.split('').forEach(char => {
+    if (/\n/.test(char)) count++
+  })
+  console.log('COUNT: ', count)
+  return description.split('\n').map((line, index) => <p key={index}>{line}</p>)
 }
 
 function mapStateToProps(state) {
