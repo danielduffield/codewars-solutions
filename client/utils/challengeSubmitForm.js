@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
+import showdown from 'showdown'
+
+const converter = new showdown.Converter()
 
 class ChallengeSubmitForm extends React.Component {
   constructor(props) {
@@ -84,7 +87,7 @@ function parseApiData(response) {
   const authorUrl = response.createdBy.url
   const difficulty = response.rank.name
   console.log(response)
-  const description = parseDescription(response.description)
+  const description = parseDescription(converter.makeHtml(response.description))
 
   return { url, name, id, author, authorUrl, difficulty, description }
 }
