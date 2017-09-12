@@ -86,7 +86,8 @@ function parseApiData(response) {
   const author = response.createdBy.username
   const authorUrl = response.createdBy.url
   const difficulty = response.rank.name
-  const description = converter.makeHtml(response.description)
+  let description = converter.makeHtml(response.description)
+  description = description.replace(/<h1/g, '<h2')
 
   return { url, name, id, author, authorUrl, difficulty, description }
 }
