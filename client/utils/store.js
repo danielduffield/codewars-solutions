@@ -23,7 +23,7 @@ const examples = [
 
 function reducer(state = {
   urlForm: '',
-  view: 'challengeList',
+  view: 'solutionForm',
   selectedChallenge: examples[0],
   challenges: examples
 }, action) {
