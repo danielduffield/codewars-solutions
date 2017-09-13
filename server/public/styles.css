@@ -30,11 +30,18 @@ thead {
 #background {
   background-color: black;
   height: 100%;
-  position: absolute;
+  width: 100%;
+  position: fixed;
+  overflow-y: scroll;
 }
 
 #foreground {
   background-color: whitesmoke;
   height: 100%;
-  position: absolute;
+  position: fixed;
+  overflow-y: scroll;
+}
+
+.challenge-view-btn {
+  margin-bottom: 30px;
 }

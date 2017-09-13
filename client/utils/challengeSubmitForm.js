@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
+import showdown from 'showdown'
+
+const converter = new showdown.Converter()
 
 class ChallengeSubmitForm extends React.Component {
   constructor(props) {
@@ -8,6 +11,7 @@ class ChallengeSubmitForm extends React.Component {
     this.updateView = this.updateView.bind(this)
     this.processForm = this.processForm.bind(this)
     this.handleUrlSubmission = this.handleUrlSubmission.bind(this)
+    this.updateUrlForm = this.updateUrlForm.bind(this)
     this.updateChallengeList = this.updateChallengeList.bind(this)
   }
   updateView(event) {
@@ -20,6 +24,14 @@ class ChallengeSubmitForm extends React.Component {
   }
   processForm(form, fieldId) {
     return form.get(fieldId)
+  }
+  updateUrlForm(event) {
+    this.props.dispatch({
+      type: 'UPDATED_URL_FORM',
+      payload: {
+        text: event.target.value
+      }
+    })
   }
   updateChallengeList(challengeData) {
     this.props.dispatch({
@@ -39,8 +51,8 @@ class ChallengeSubmitForm extends React.Component {
       body: JSON.stringify({ url })
     })
     .then(response => response.json())
-    .then(htmlData => {
-      const challengeData = scrapeChallengeData(htmlData, url)
+    .then(apiData => {
+      const challengeData = parseApiData(apiData)
       console.log(challengeData)
       this.updateChallengeList(challengeData)
     })
@@ -54,7 +66,8 @@ class ChallengeSubmitForm extends React.Component {
             <input type="text" className="form-control"
               name="url-input-field" placeholder="Enter a Codewars Kata URL"
               pattern="(https:\/\/www\.codewars\.com\/kata\/(.*)|www\.codewars\.com\/kata\/(.*)|codewars\.com\/kata\/(.*))"
-              title="https://www.codewars.com/kata/CHALLENGE-URL" required />
+              title="https://www.codewars.com/kata/CHALLENGE-URL"
+              value={this.props.urlForm} onChange={this.updateUrlForm} required />
             <span className="input-group-btn">
               <button className="btn btn-default" type="submit">Submit</button>
             </span>
@@ -76,20 +89,22 @@ const UrlForm = styled.form`
   margin: 25px;
 `
 
-function scrapeChallengeData(htmlData, url) {
-  const $challengePage = document.createElement('html')
-  $challengePage.innerHTML = htmlData.body
-  const name = $challengePage.querySelector('h4').textContent
-  const authorData = $challengePage
-    .querySelector('i.icon-moon-user').parentNode.href
-  const author = authorData.split('/')[authorData.split('/').length - 1]
-  const authorUrl = 'https://www.codewars.com/users/' + author
-  const difficulty = $challengePage.querySelector('.inner-small-hex.is-extra-wide').firstChild.textContent
-  return { name, url, author, authorUrl, difficulty }
+function parseApiData(response) {
+  const url = response.url
+  const name = response.name
+  const id = response.id
+  const author = response.createdBy.username
+  const authorUrl = response.createdBy.url
+  const difficulty = response.rank.name
+  let description = converter.makeHtml(response.description)
+  description = description.replace(/<h1/g, '<h2')
+
+  return { url, name, id, author, authorUrl, difficulty, description }
 }
 
 function mapStateToProps(state) {
   return {
+    urlForm: state.urlForm,
     view: state.view
   }
 }
