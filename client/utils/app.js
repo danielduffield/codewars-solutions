@@ -2,7 +2,7 @@ import React from 'react'
 import ChallengeList from './challengeList.js'
 import ChallengeSubmitForm from './challengeSubmitForm.js'
 import ChallengeView from './challengeView.js'
-import SolutionForm from './solutionForm.js'
+import SolutionSubmitForm from './solutionSubmitForm.js'
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
       <ChallengeList/>
       <ChallengeSubmitForm/>
       <ChallengeView/>
-      <SolutionForm/>
+      <SolutionSubmitForm/>
     </div>
   )
 }
