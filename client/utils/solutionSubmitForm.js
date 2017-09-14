@@ -19,12 +19,14 @@ class SolutionSubmitForm extends React.Component {
   render() {
     return (
       <FormContainer className={this.props.view === 'solutionForm' ? '' : 'hidden'}>
-        <h3>Codewars Challenge: Snail</h3>
+        <ChallengeTitle>Codewars Challenge: Snail</ChallengeTitle>
         <h4>Submit a Solution</h4>
         <SolutionForm>
-          <textarea></textarea>
+          <SolutionTextarea></SolutionTextarea>
           <button type="button" className="btn btn-default challenge-view-btn"
-            onClick={this.updateView} data-view="challengeView">Return to challenge.</button>
+            onClick={this.updateView} data-view="challengeView">Cancel</button>
+            <button type="button" className="btn btn-default challenge-view-btn"
+              data-view="challengeView">Submit</button>
         </SolutionForm>
       </FormContainer>
     )
@@ -36,8 +38,17 @@ const FormContainer = styled.div`
   text-align: center;
 `
 
+const ChallengeTitle = styled.h3`
+  font-weight: bold;
+`
+
 const SolutionForm = styled.form`
 
+`
+
+const SolutionTextarea = styled.textarea`
+  display: block;
+  margin: 0 auto;
 `
 
 function mapStateToProps(state) {
