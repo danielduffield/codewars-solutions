@@ -21,13 +21,13 @@ class SolutionSubmitForm extends React.Component {
       <FormContainer className={this.props.view === 'solutionForm' ? '' : 'hidden'}>
         <ChallengeTitle>Codewars Challenge: Snail</ChallengeTitle>
         <h4>Submit a Solution</h4>
-        <SolutionForm>
+        <form>
           <SolutionTextarea></SolutionTextarea>
           <button type="button" className="btn btn-default challenge-view-btn"
             onClick={this.updateView} data-view="challengeView">Cancel</button>
           <SubmitButton type="button" className="btn btn-default challenge-view-btn"
             data-view="challengeView">Submit</SubmitButton>
-        </SolutionForm>
+        </form>
       </FormContainer>
     )
   }
@@ -40,10 +40,6 @@ const FormContainer = styled.div`
 
 const ChallengeTitle = styled.h3`
   font-weight: bold;
-`
-
-const SolutionForm = styled.form`
-
 `
 
 const SolutionTextarea = styled.textarea`
