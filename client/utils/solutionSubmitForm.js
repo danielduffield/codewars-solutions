@@ -3,6 +3,19 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 class SolutionSubmitForm extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.updateView = this.updateView.bind(this)
+  }
+  updateView(event) {
+    this.props.dispatch({
+      type: 'UPDATED_VIEW',
+      payload: {
+        text: event.target.dataset.view
+      }
+    })
+  }
   render() {
     return (
       <FormContainer className={this.props.view === 'solutionForm' ? '' : 'hidden'}>
