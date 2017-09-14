@@ -47,6 +47,8 @@ class ChallengeView extends React.Component {
         <ButtonContainer className="col-sm-6 col-sm-offset-3">
           <button type="button" className="btn btn-default challenge-view-btn"
             onClick={this.updateView} data-view="submitForm">Submit a new challenge.</button>
+          <SubmitButton type="button" className="btn btn-default challenge-view-btn"
+            onClick={this.updateView} data-view="solutionForm">Submit a solution.</SubmitButton>
           <SubmitButton className="btn btn-default challenge-view-btn"
             onClick={this.updateView} data-view="challengeList">Return to Challenge List</SubmitButton>
         </ButtonContainer>
@@ -88,7 +90,7 @@ const ButtonContainer = styled.div`
 `
 
 const SubmitButton = styled.button`
-  float: right;
+  margin-left: 30px;
 `
 
 function mapStateToProps(state) {
