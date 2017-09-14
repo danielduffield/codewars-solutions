@@ -25,8 +25,8 @@ class SolutionSubmitForm extends React.Component {
           <SolutionTextarea></SolutionTextarea>
           <button type="button" className="btn btn-default challenge-view-btn"
             onClick={this.updateView} data-view="challengeView">Cancel</button>
-            <button type="button" className="btn btn-default challenge-view-btn"
-              data-view="challengeView">Submit</button>
+          <SubmitButton type="button" className="btn btn-default challenge-view-btn"
+            data-view="challengeView">Submit</SubmitButton>
         </SolutionForm>
       </FormContainer>
     )
@@ -48,7 +48,15 @@ const SolutionForm = styled.form`
 
 const SolutionTextarea = styled.textarea`
   display: block;
-  margin: 0 auto;
+  margin: 30px auto;
+  width: 1000px;
+  height: 400px;
+  resize: none;
+  padding: 20px;
+`
+
+const SubmitButton = styled.button`
+  margin-left: 50px;
 `
 
 function mapStateToProps(state) {
