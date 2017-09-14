@@ -34,7 +34,7 @@ class SolutionSubmitForm extends React.Component {
 }
 
 const FormContainer = styled.div`
-  padding: 20px;
+  padding: 0 20px 20px;
   text-align: center;
 `
 
