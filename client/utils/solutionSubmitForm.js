@@ -7,6 +7,7 @@ class SolutionSubmitForm extends React.Component {
     super(props)
 
     this.updateView = this.updateView.bind(this)
+    this.submitSolution = this.submitSolution.bind(this)
   }
   updateView(event) {
     this.props.dispatch({
@@ -16,16 +17,27 @@ class SolutionSubmitForm extends React.Component {
       }
     })
   }
+  submitSolution(event) {
+    event.preventDefault()
+    const solutionForm = new FormData(event.target)
+    const challengeSolution = solutionForm.get('solution-textarea')
+    this.props.dispatch({
+      type: 'UPDATED_SOLUTION',
+      payload: {
+        text: challengeSolution
+      }
+    })
+  }
   render() {
     return (
       <FormContainer className={this.props.view === 'solutionForm' ? '' : 'hidden'}>
         <ChallengeTitle>Codewars Challenge: Snail</ChallengeTitle>
         <h4>Submit a Solution</h4>
-        <form>
-          <SolutionTextarea></SolutionTextarea>
+        <form onSubmit={this.submitSolution}>
+          <SolutionTextarea name="solution-textarea"></SolutionTextarea>
           <button type="button" className="btn btn-default challenge-view-btn"
             onClick={this.updateView} data-view="challengeView">Cancel</button>
-          <SubmitButton type="button" className="btn btn-default challenge-view-btn"
+          <SubmitButton type="submit" className="btn btn-default challenge-view-btn"
             data-view="challengeView">Submit</SubmitButton>
         </form>
       </FormContainer>
