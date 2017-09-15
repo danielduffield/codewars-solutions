@@ -47,7 +47,11 @@ class ChallengeView extends React.Component {
         <ChallengeContainer className={this.props.selected.solution ? '' : 'hidden'}>
           <ChallengeSubtitle>Challenge Solution</ChallengeSubtitle>
           <ChallengeDescription>
-            {this.props.selected.solution}
+            {this.props.selected.solution
+              ? this.props.selected.solution.split('\n').map((line, index) => {
+                return <p key={index} className="code-text">{line}</p>
+              })
+              : 'No solution found'}
           </ChallengeDescription>
         </ChallengeContainer>
         <ButtonContainer className="col-sm-6 col-sm-offset-3">
