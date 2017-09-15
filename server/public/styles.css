@@ -42,6 +42,10 @@ thead {
   overflow-y: scroll;
 }
 
+.code-text {
+  font-family: monospace;
+}
+
 .challenge-view-btn {
   margin-bottom: 30px;
 }
