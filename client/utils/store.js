@@ -53,7 +53,7 @@ function reducer(state = {
         ? updated
         : Object.assign({}, challenge)
       )
-      return Object.assign({}, state, { challenges: updatedChallenges, view: 'challengeView' })
+      return Object.assign({}, state, { challenges: updatedChallenges, view: 'challengeView', selectedChallenge: updated })
     default: return state
   }
 }
