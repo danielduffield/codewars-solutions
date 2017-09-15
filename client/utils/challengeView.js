@@ -49,6 +49,7 @@ class ChallengeView extends React.Component {
           <ChallengeDescription>
             {this.props.selected.solution
               ? this.props.selected.solution.split('\n').map((line, index) => {
+                line = line.replace(/ {2}/g, '    ')
                 return <CodeText key={index}>{line}</CodeText>
               })
               : 'No solution found'}
