@@ -50,7 +50,7 @@ class ChallengeView extends React.Component {
             {this.props.selected.solution
               ? this.props.selected.solution.split('\n').map((line, index) => {
                 line = line.replace(/ {2}/g, '    ')
-                return <CodeText key={index}>{line}</CodeText>
+                return <p className="code-text" key={index}>{line}</p>
               })
               : 'No solution found'}
           </ChallengeDescription>
@@ -102,11 +102,6 @@ const ButtonContainer = styled.div`
 
 const SubmitButton = styled.button`
   margin-left: 30px;
-`
-
-const CodeText = styled.p`
-  font-family: monospace;
-  white-space: pre;
 `
 
 function mapStateToProps(state) {
