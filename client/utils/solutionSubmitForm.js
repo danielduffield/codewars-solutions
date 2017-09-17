@@ -34,7 +34,7 @@ class SolutionSubmitForm extends React.Component {
         <ChallengeTitle>{'Codewars Challenge: ' + this.props.selected.name}</ChallengeTitle>
         <h4>Submit a Solution</h4>
         <form onSubmit={this.submitSolution}>
-          <SolutionTextarea name="solution-textarea"></SolutionTextarea>
+          <SolutionTextarea className="code-text" name="solution-textarea"></SolutionTextarea>
           <button type="button" className="btn btn-default challenge-view-btn"
             onClick={this.updateView} data-view="challengeView">Cancel</button>
           <SubmitButton type="submit" className="btn btn-default challenge-view-btn"
