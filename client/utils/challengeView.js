@@ -44,9 +44,22 @@ class ChallengeView extends React.Component {
               : { __html: '<p>No Description Found</p>' }} />
           </ChallengeDescription>
         </ChallengeContainer>
+        <ChallengeContainer className={this.props.selected.solution ? '' : 'hidden'}>
+          <ChallengeSubtitle>Challenge Solution</ChallengeSubtitle>
+          <ChallengeDescription>
+            {this.props.selected.solution
+              ? this.props.selected.solution.split('\n').map((line, index) => {
+                line = line.replace(/ {2}/g, '    ')
+                return <CodeText key={index}>{line}</CodeText>
+              })
+              : 'No solution found'}
+          </ChallengeDescription>
+        </ChallengeContainer>
         <ButtonContainer className="col-sm-6 col-sm-offset-3">
           <button type="button" className="btn btn-default challenge-view-btn"
             onClick={this.updateView} data-view="submitForm">Submit a new challenge.</button>
+          <SubmitButton type="button" className="btn btn-default challenge-view-btn"
+            onClick={this.updateView} data-view="solutionForm">Submit a solution.</SubmitButton>
           <SubmitButton className="btn btn-default challenge-view-btn"
             onClick={this.updateView} data-view="challengeList">Return to Challenge List</SubmitButton>
         </ButtonContainer>
@@ -88,7 +101,12 @@ const ButtonContainer = styled.div`
 `
 
 const SubmitButton = styled.button`
-  float: right;
+  margin-left: 30px;
+`
+
+const CodeText = styled.p`
+  font-family: monospace;
+  white-space: pre;
 `
 
 function mapStateToProps(state) {

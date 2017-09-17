@@ -8,7 +8,8 @@ const examples = [
     author: 'testAuthor',
     authorUrl: 'https://www.codewars.com',
     difficulty: '4 kyu',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    solution: null
   },
   {
     id: '2',
@@ -17,7 +18,8 @@ const examples = [
     author: 'StevenBarragan',
     authorUrl: 'https://www.codewars.com/users/stevenbarragan',
     difficulty: '4 kyu',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    solution: null
   }
 ]
 
@@ -43,6 +45,15 @@ function reducer(state = {
       const selectedIndex = state.challenges.findIndex(challenge => challenge.id === action.payload.text)
       const selected = state.challenges[selectedIndex]
       return Object.assign({}, state, { selectedChallenge: selected, view: 'challengeView' })
+    case 'UPDATED_SOLUTION':
+      const currentIndex = state.challenges.findIndex(challenge => challenge.id === state.selectedChallenge.id)
+      const updated = Object.assign({}, state.challenges[currentIndex])
+      updated.solution = action.payload.text
+      const updatedChallenges = state.challenges.map((challenge, index) => index === currentIndex
+        ? updated
+        : Object.assign({}, challenge)
+      )
+      return Object.assign({}, state, { challenges: updatedChallenges, view: 'challengeView', selectedChallenge: updated })
     default: return state
   }
 }
