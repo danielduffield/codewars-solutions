@@ -31,7 +31,7 @@ class SolutionSubmitForm extends React.Component {
   render() {
     return (
       <FormContainer className={this.props.view === 'solutionForm' ? '' : 'hidden'}>
-        <ChallengeTitle>Codewars Challenge: Snail</ChallengeTitle>
+        <ChallengeTitle>{'Codewars Challenge: ' + this.props.selected.name}</ChallengeTitle>
         <h4>Submit a Solution</h4>
         <form onSubmit={this.submitSolution}>
           <SolutionTextarea name="solution-textarea"></SolutionTextarea>
@@ -69,7 +69,8 @@ const SubmitButton = styled.button`
 
 function mapStateToProps(state) {
   return {
-    view: state.view
+    view: state.view,
+    selected: state.selectedChallenge
   }
 }
 
