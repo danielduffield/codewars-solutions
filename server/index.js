@@ -15,7 +15,7 @@ app.use(express.static('server/public'))
 app.get('/solution/:name', (req, res) => {
   readSolution(req.params.name)
     .then(solution => {
-      res.send(solution).status(200)
+      res.send(JSON.stringify({ solution })).status(200)
     }).catch(err => {
       console.log(err)
       res.sendStatus(400)
