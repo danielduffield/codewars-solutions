@@ -40,12 +40,13 @@ function reducer(state = {
         selectedChallenge: action.payload,
         urlForm: '',
         view: 'challengeView',
-        challenges: [...state.challenges, action.payload]
+        challenges: [...state.challenges, action.payload],
+        solutionLoaded: false
       })
     case 'UPDATED_SELECTED':
       const selectedIndex = state.challenges.findIndex(challenge => challenge.id === action.payload.text)
       const selected = state.challenges[selectedIndex]
-      return Object.assign({}, state, { selectedChallenge: selected, view: 'challengeView' })
+      return Object.assign({}, state, { selectedChallenge: selected, view: 'challengeView', solutionLoaded: false })
     case 'LOADED_SOLUTION':
       return Object.assign({}, state, { loadedSolution: true })
     case 'UPDATED_SOLUTION':
