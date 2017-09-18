@@ -27,7 +27,8 @@ function reducer(state = {
   urlForm: '',
   view: 'challengeList',
   selectedChallenge: examples[0],
-  challenges: examples
+  challenges: examples,
+  solutionLoaded: false
 }, action) {
   switch (action.type) {
     case 'UPDATED_VIEW':
