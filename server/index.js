@@ -15,9 +15,11 @@ app.use(express.static('server/public'))
 app.get('/solution/:name', (req, res) => {
   readSolution(req.params.name)
     .then(solution => {
-      console.log('SOLUTION: ', solution)
       res.send(solution).status(200)
-    }).catch(err => res.send(err).status(400))
+    }).catch(err => {
+      console.log(err)
+      res.sendStatus(400)
+    })
 })
 
 app.post('/submit-url', (req, res) => {
