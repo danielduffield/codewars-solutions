@@ -50,7 +50,7 @@ class ChallengeView extends React.Component {
               : { __html: '<p>No Description Found</p>' }} />
           </ChallengeDescription>
         </ChallengeContainer>
-        <ChallengeContainer className={this.props.selected.solution ? '' : 'hidden'}>
+        <ChallengeContainer className={this.props.solutionLoaded ? '' : 'hidden'}>
           <ChallengeSubtitle>Challenge Solution</ChallengeSubtitle>
           <ChallengeDescription>
             {this.props.selected.solution
@@ -63,14 +63,14 @@ class ChallengeView extends React.Component {
         </ChallengeContainer>
         <ButtonContainer className="col-sm-6 col-sm-offset-3">
           <button type="button" className="btn btn-default challenge-view-btn"
-            onClick={this.updateView} data-view="submitForm">Submit a new challenge.</button>
+            onClick={this.updateView} data-view="submitForm">Submit a New Challenge.</button>
           <SubmitButton type="button"
             className={this.props.selected.solution ? 'hidden' : 'btn btn-default challenge-view-btn'}
-            onClick={this.updateView} data-view="solutionForm">Submit a solution.</SubmitButton>
+            onClick={this.updateView} data-view="solutionForm">Submit a Solution.</SubmitButton>
           <SubmitButton type="button"
             className={this.props.selected.solution && !this.props.solutionLoaded
               ? 'btn btn-default challenge-view-btn' : 'hidden'}
-            onClick={this.loadSolution} data-view="solutionForm">View the solution.</SubmitButton>
+            onClick={this.loadSolution} data-view="solutionForm">View the Solution.</SubmitButton>
           <SubmitButton className="btn btn-default challenge-view-btn"
             onClick={this.updateView} data-view="challengeList">Return to Challenge List</SubmitButton>
         </ButtonContainer>
@@ -118,7 +118,8 @@ const SubmitButton = styled.button`
 function mapStateToProps(state) {
   return {
     view: state.view,
-    selected: state.selectedChallenge
+    selected: state.selectedChallenge,
+    solutionLoaded: state.solutionLoaded
   }
 }
 
