@@ -6,6 +6,7 @@ class ChallengeView extends React.Component {
   constructor(props) {
     super(props)
     this.updateView = this.updateView.bind(this)
+    this.loadSolution = this.loadSolution.bind(this)
   }
   updateView(event) {
     this.props.dispatch({
@@ -13,6 +14,11 @@ class ChallengeView extends React.Component {
       payload: {
         text: event.target.dataset.view
       }
+    })
+  }
+  loadSolution() {
+    this.props.dispatch({
+      type: 'LOADED_SOLUTION'
     })
   }
   render() {
@@ -62,8 +68,9 @@ class ChallengeView extends React.Component {
             className={this.props.selected.solution ? 'hidden' : 'btn btn-default challenge-view-btn'}
             onClick={this.updateView} data-view="solutionForm">Submit a solution.</SubmitButton>
           <SubmitButton type="button"
-            className={this.props.selected.solution ? 'btn btn-default challenge-view-btn' : 'hidden'}
-            onClick={this.requestSolution} data-view="solutionForm">View the solution.</SubmitButton>
+            className={this.props.selected.solution && !this.props.solutionLoaded
+              ? 'btn btn-default challenge-view-btn' : 'hidden'}
+            onClick={this.loadSolution} data-view="solutionForm">View the solution.</SubmitButton>
           <SubmitButton className="btn btn-default challenge-view-btn"
             onClick={this.updateView} data-view="challengeList">Return to Challenge List</SubmitButton>
         </ButtonContainer>
