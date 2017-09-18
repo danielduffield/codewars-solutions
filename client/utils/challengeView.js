@@ -61,6 +61,9 @@ class ChallengeView extends React.Component {
           <SubmitButton type="button"
             className={this.props.selected.solution ? 'hidden' : 'btn btn-default challenge-view-btn'}
             onClick={this.updateView} data-view="solutionForm">Submit a solution.</SubmitButton>
+          <SubmitButton type="button"
+            className={this.props.selected.solution ? 'btn btn-default challenge-view-btn' : 'hidden'}
+            onClick={this.requestSolution} data-view="solutionForm">View the solution.</SubmitButton>
           <SubmitButton className="btn btn-default challenge-view-btn"
             onClick={this.updateView} data-view="challengeList">Return to Challenge List</SubmitButton>
         </ButtonContainer>
