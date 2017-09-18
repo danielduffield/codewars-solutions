@@ -10,6 +10,11 @@ const server = app.listen(process.env.PORT, () => console.log('Listening on PORT
 app.use(jsonParser)
 app.use(express.static('server/public'))
 
+app.get('/solution/:id', (req, res) => {
+  console.log(req.params.id)
+  res.send('Looking up solution at params id')
+})
+
 app.post('/submit-url', (req, res) => {
   console.log(req.body.url)
   const challengeApiUrl = parseUrl(req.body.url)
