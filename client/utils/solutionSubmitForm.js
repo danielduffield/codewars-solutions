@@ -31,7 +31,7 @@ class SolutionSubmitForm extends React.Component {
   render() {
     return (
       <FormContainer className={this.props.view === 'solutionForm' ? '' : 'hidden'}>
-        <ChallengeTitle>{'Codewars Challenge: ' + this.props.selected.name}</ChallengeTitle>
+        <ChallengeTitle>{'Codewars Challenge: ' + this.props.selected.challenge.name}</ChallengeTitle>
         <h4>Submit a Solution</h4>
         <form onSubmit={this.submitSolution}>
           <SolutionTextarea className="code-text" name="solution-textarea"></SolutionTextarea>
