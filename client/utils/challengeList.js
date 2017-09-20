@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import fetchSolution from './fetchSolution.js'
+import fetchDescription from './fetchDescription.js'
 
 class ChallengeList extends React.Component {
   constructor(props) {
@@ -21,24 +22,28 @@ class ChallengeList extends React.Component {
   updateSelected(event) {
     const selectedId = event.target.dataset.id
     const selectedIndex = this.props.challenges.findIndex(challenge => challenge.id === selectedId)
-    const selected = this.props.challenges[selectedIndex]
-    fetchSolution(selected.name)
-      .then(response => {
-        selected.solution = response.solution
+    Promise.all(fetchSelectedData(this.props.challenges[selectedIndex]))
+      .then(fetched => {
+        const description = fetched[0]
+        const solution = fetched[1].solution
+        console.log('description, solution', description, solution)
         this.props.dispatch({
           type: 'UPDATED_SELECTED',
           payload: {
-            challenge: selected
+            challenge: this.props.challenges[selectedIndex],
+            description,
+            solution
           }
         })
       })
       .catch(err => {
         console.log(err)
-        selected.solution = null
         this.props.dispatch({
           type: 'UPDATED_SELECTED',
           payload: {
-            challenge: selected
+            challenge: this.props.challenges[selectedIndex],
+            description: '',
+            solution: ''
           }
         })
       })
@@ -104,6 +109,10 @@ function mapStateToProps(state) {
     view: state.view,
     challenges: state.challenges
   }
+}
+
+function fetchSelectedData(challenge) {
+  return [fetchDescription(challenge.url), fetchSolution(challenge.name)]
 }
 
 const Connected = connect(mapStateToProps)(ChallengeList)
