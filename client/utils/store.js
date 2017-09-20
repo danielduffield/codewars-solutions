@@ -46,13 +46,15 @@ function reducer(state = {
         urlForm: '',
         view: 'challengeView',
         challenges: [...state.challenges, action.payload.challenge],
-        solutionLoaded: false
+        solutionLoaded: false,
+        solutionForm: ''
       })
     case 'UPDATED_SELECTED':
       return Object.assign({}, state, {
         selectedChallenge: action.payload,
         view: 'challengeView',
-        solutionLoaded: false
+        solutionLoaded: false,
+        solutionForm: ''
       })
     case 'LOADED_SOLUTION':
       return Object.assign({}, state, { solutionLoaded: true })
@@ -72,7 +74,8 @@ function reducer(state = {
         view: 'challengeView',
         selectedChallenge: updated,
         fetchedData: [...state.fetchedData, updated],
-        solutionLoaded: true
+        solutionLoaded: true,
+        solutionForm: ''
       })
     default: return state
   }
