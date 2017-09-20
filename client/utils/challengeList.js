@@ -22,7 +22,8 @@ class ChallengeList extends React.Component {
   updateSelected(event) {
     const selectedId = event.target.dataset.id
     const selectedIndex = this.props.challenges.findIndex(challenge => challenge.id === selectedId)
-    Promise.all(fetchSelectedData(this.props.challenges[selectedIndex]))
+    const challenge = this.props.challenges[selectedIndex]
+    Promise.all([fetchDescription(challenge.url), fetchSolution(challenge.name)])
       .then(fetched => {
         const description = fetched[0]
         const solution = fetched[1].solution
@@ -109,10 +110,6 @@ function mapStateToProps(state) {
     view: state.view,
     challenges: state.challenges
   }
-}
-
-function fetchSelectedData(challenge) {
-  return [fetchDescription(challenge.url), fetchSolution(challenge.name)]
 }
 
 const Connected = connect(mapStateToProps)(ChallengeList)
