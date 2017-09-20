@@ -56,12 +56,11 @@ function reducer(state = {
       return Object.assign({}, state, { solutionLoaded: true })
     case 'UPDATED_SOLUTION':
       const currentIndex = state.challenges.findIndex(challenge => challenge.id === state.selectedChallenge.id)
-      const updated = Object.assign({}, state.challenges[currentIndex])
+      const updated = {}
+      updated.challenge = Object.assign({}, state.challenges[currentIndex])
+      updated.description = state.selectedChallenge.description
       updated.solution = action.payload.text
-      const updatedChallenges = state.challenges.map((challenge, index) => index === currentIndex
-        ? updated
-        : Object.assign({}, challenge)
-      )
+      const updatedChallenges = [state.challenges.slice(0, currentIndex), updated, state.challenges.slice(currentIndex + 1, 0)]
       return Object.assign({}, state, { challenges: updatedChallenges, view: 'challengeView', selectedChallenge: updated })
     default: return state
   }
