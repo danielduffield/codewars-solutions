@@ -10,6 +10,7 @@ class ChallengeList extends React.Component {
     super(props)
     this.updateView = this.updateView.bind(this)
     this.updateSelected = this.updateSelected.bind(this)
+    this.hasBeenFetched = this.hasBeenFetched.bind(this)
   }
   updateView(event) {
     this.props.dispatch({
@@ -19,15 +20,29 @@ class ChallengeList extends React.Component {
       }
     })
   }
+  hasBeenFetched(challenge) {
+    const fetchedIndex = this.props.fetchedData.findIndex(data => data.challenge.id === challenge.id)
+    return fetchedIndex !== -1 ? this.props.fetchedData[fetchedIndex] : null
+  }
   updateSelected(event) {
     const selectedId = event.target.dataset.id
     const selectedIndex = this.props.challenges.findIndex(challenge => challenge.id === selectedId)
     const challenge = this.props.challenges[selectedIndex]
+    if (this.hasBeenFetched(challenge)) {
+      const fetched = this.hasBeenFetched(challenge)
+      return this.props.dispatch({
+        type: 'UPDATED_SELECTED',
+        payload: {
+          challenge: challenge,
+          description: fetched.description,
+          solution: fetched.solution
+        }
+      })
+    }
     Promise.all([fetchDescription(challenge.url), fetchSolution(challenge.name)])
       .then(fetched => {
         const description = fetched[0]
         const solution = fetched[1].solution
-        console.log('description, solution', description, solution)
         this.props.dispatch({
           type: 'UPDATED_SELECTED',
           payload: {
@@ -108,7 +123,8 @@ const ChallengeDifficulty = styled.td`
 function mapStateToProps(state) {
   return {
     view: state.view,
-    challenges: state.challenges
+    challenges: state.challenges,
+    fetchedData: state.fetchedData
   }
 }
 
