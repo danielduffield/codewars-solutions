@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import showdown from 'showdown'
 
+import fetchSolution from './fetchSolution.js'
+
 const converter = new showdown.Converter()
 
 class ChallengeSubmitForm extends React.Component {
@@ -34,9 +36,18 @@ class ChallengeSubmitForm extends React.Component {
     })
   }
   updateChallengeList(challengeData) {
-    this.props.dispatch({
-      type: 'ADDED_CHALLENGE',
-      payload: challengeData
+    fetchSolution(challengeData.name).then(response => {
+      challengeData.solution = response.solution
+      this.props.dispatch({
+        type: 'ADDED_CHALLENGE',
+        payload: challengeData
+      })
+    }).catch(() => {
+      challengeData.solution = null
+      this.props.dispatch({
+        type: 'ADDED_CHALLENGE',
+        payload: challengeData
+      })
     })
   }
   handleUrlSubmission(event) {
