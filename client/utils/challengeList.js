@@ -17,6 +17,14 @@ class ChallengeList extends React.Component {
     })
   }
   updateSelected(event) {
+    const selected = {}
+    const selectedId = event.target.dataset.id
+    const selectedIndex = this.props.challenges.findIndex(challenge => challenge.id === selectedId)
+    selected.challenge = selectedIndex !== -1 ? this.props.challenges[selectedIndex] : null
+
+    fetch('/solution/' + selected.challenge.name)
+      .then(responseData => responseData.json())
+      .then(response => console.log(response))
     this.props.dispatch({
       type: 'UPDATED_SELECTED',
       payload: {
