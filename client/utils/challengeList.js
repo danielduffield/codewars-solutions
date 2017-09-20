@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
+import fetchSolution from './fetchSolution.js'
+
 class ChallengeList extends React.Component {
   constructor(props) {
     super(props)
@@ -20,9 +22,7 @@ class ChallengeList extends React.Component {
     const selectedId = event.target.dataset.id
     const selectedIndex = this.props.challenges.findIndex(challenge => challenge.id === selectedId)
     const selected = this.props.challenges[selectedIndex]
-
-    fetch('/solution/' + selected.name)
-      .then(responseData => responseData.json())
+    fetchSolution(selected.name)
       .then(response => {
         selected.solution = response.solution
         this.props.dispatch({
