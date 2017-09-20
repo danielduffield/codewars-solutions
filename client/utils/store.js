@@ -21,6 +21,7 @@ const examples = [
 
 function reducer(state = {
   urlForm: '',
+  solutionForm: '',
   view: 'challengeList',
   selectedChallenge: {
     challenge: examples[0],
@@ -36,6 +37,8 @@ function reducer(state = {
       return Object.assign({}, state, { view: action.payload.text, urlForm: '' })
     case 'UPDATED_URL_FORM':
       return Object.assign({}, state, { urlForm: action.payload.text })
+    case 'UPDATED_SOLUTION_FORM':
+      return Object.assign({}, state, { solutionForm: action.payload.text })
     case 'ADDED_CHALLENGE':
       return Object.assign({}, state, {
         selectedChallenge: action.payload,
