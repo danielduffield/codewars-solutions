@@ -1,11 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import showdown from 'showdown'
 
 import fetchSolution from './fetchSolution.js'
-
-const converter = new showdown.Converter()
+import fetchChallenge from './fetchChallenge.js'
 
 class ChallengeSubmitForm extends React.Component {
   constructor(props) {
@@ -37,34 +35,30 @@ class ChallengeSubmitForm extends React.Component {
   }
   updateChallengeList(challengeData) {
     fetchSolution(challengeData.name).then(response => {
-      challengeData.solution = response.solution
       this.props.dispatch({
         type: 'ADDED_CHALLENGE',
-        payload: challengeData
+        payload: {
+          challenge: challengeData.challenge,
+          description: challengeData.description,
+          solution: response.solution
+        }
       })
     }).catch(() => {
-      challengeData.solution = null
+      challengeData.solution = ''
       this.props.dispatch({
         type: 'ADDED_CHALLENGE',
-        payload: challengeData
+        payload: {
+          challenge: challengeData.challenge,
+          description: challengeData.description,
+          solution: ''
+        }
       })
     })
   }
   handleUrlSubmission(event) {
     event.preventDefault()
     const url = this.processForm(new FormData(event.target), 'url-input-field')
-    fetch('/submit-url', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({ url })
-    })
-    .then(response => response.json())
-    .then(apiData => {
-      const challengeData = parseApiData(apiData)
-      console.log(challengeData)
+    fetchChallenge(url).then(challengeData => {
       this.updateChallengeList(challengeData)
     })
   }
@@ -99,19 +93,6 @@ const SubmitFormContainer = styled.div`
 const UrlForm = styled.form`
   margin: 25px;
 `
-
-function parseApiData(response) {
-  const url = response.url
-  const name = response.name
-  const id = response.id
-  const author = response.createdBy.username
-  const authorUrl = response.createdBy.url
-  const difficulty = response.rank.name
-  let description = converter.makeHtml(response.description)
-  description = description.replace(/<h1/g, '<h2')
-
-  return { url, name, id, author, authorUrl, difficulty, description }
-}
 
 function mapStateToProps(state) {
   return {
