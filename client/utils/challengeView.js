@@ -24,19 +24,19 @@ class ChallengeView extends React.Component {
   render() {
     return (
       <div className={this.props.view === 'challengeView' ? '' : 'hidden'}>
-        <ChallengeTitle className="text-center">{'Codewars Challenge: ' + this.props.selected.name}</ChallengeTitle>
+        <ChallengeTitle className="text-center">{'Codewars Challenge: ' + this.props.selected.challenge.name}</ChallengeTitle>
         <ChallengeContainer>
           <ChallengeSubtitle>Challenge Details</ChallengeSubtitle>
           <ChallengeDetails>
             <ul>
-              <ChallengeDetail>{'Name: ' + this.props.selected.name}</ChallengeDetail>
+              <ChallengeDetail>{'Name: ' + this.props.selected.challenge.name}</ChallengeDetail>
               <ChallengeDetail>{'URL: '}
-                <a href={this.props.selected.url}>{this.props.selected.url}</a>
+                <a href={this.props.selected.url}>{this.props.selected.challenge.url}</a>
               </ChallengeDetail>
-              <ChallengeDetail>{'Difficulty: ' + this.props.selected.difficulty}</ChallengeDetail>
+              <ChallengeDetail>{'Difficulty: ' + this.props.selected.challenge.difficulty}</ChallengeDetail>
               <ChallengeDetail>{'Author: '}
-                <a href={this.props.selected.authorUrl}>
-                  {this.props.selected.author}
+                <a href={this.props.selected.challenge.authorUrl}>
+                  {this.props.selected.challenge.author}
                 </a>
               </ChallengeDetail>
             </ul>
