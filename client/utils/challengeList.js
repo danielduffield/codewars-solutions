@@ -17,20 +17,31 @@ class ChallengeList extends React.Component {
     })
   }
   updateSelected(event) {
-    const selected = {}
     const selectedId = event.target.dataset.id
     const selectedIndex = this.props.challenges.findIndex(challenge => challenge.id === selectedId)
-    selected.challenge = selectedIndex !== -1 ? this.props.challenges[selectedIndex] : null
+    const selected = this.props.challenges[selectedIndex]
 
-    fetch('/solution/' + selected.challenge.name)
+    fetch('/solution/' + selected.name)
       .then(responseData => responseData.json())
-      .then(response => console.log(response))
-    this.props.dispatch({
-      type: 'UPDATED_SELECTED',
-      payload: {
-        text: event.target.dataset.id
-      }
-    })
+      .then(response => {
+        selected.solution = response.solution
+        this.props.dispatch({
+          type: 'UPDATED_SELECTED',
+          payload: {
+            challenge: selected
+          }
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        selected.solution = null
+        this.props.dispatch({
+          type: 'UPDATED_SELECTED',
+          payload: {
+            challenge: selected
+          }
+        })
+      })
   }
   render() {
     return (
