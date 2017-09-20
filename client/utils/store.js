@@ -7,8 +7,7 @@ const examples = [
     name: 'testChallenge',
     author: 'testAuthor',
     authorUrl: 'https://www.codewars.com',
-    difficulty: '4 kyu',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    difficulty: '4 kyu'
   },
   {
     id: '2',
@@ -16,15 +15,18 @@ const examples = [
     name: 'Snail',
     author: 'StevenBarragan',
     authorUrl: 'https://www.codewars.com/users/stevenbarragan',
-    difficulty: '4 kyu',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    difficulty: '4 kyu'
   }
 ]
 
 function reducer(state = {
   urlForm: '',
   view: 'challengeList',
-  selectedChallenge: examples[0],
+  selectedChallenge: {
+    challenge: examples[0],
+    description: '',
+    solution: ''
+  },
   challenges: examples,
   solutionLoaded: false
 }, action) {
@@ -38,11 +40,11 @@ function reducer(state = {
         selectedChallenge: action.payload,
         urlForm: '',
         view: 'challengeView',
-        challenges: [...state.challenges, action.payload],
+        challenges: [...state.challenges, action.payload.challenge],
         solutionLoaded: false
       })
     case 'UPDATED_SELECTED':
-      const selected = action.payload.challenge
+      const selected = action.payload
       return Object.assign({}, state, { selectedChallenge: selected, view: 'challengeView', solutionLoaded: false })
     case 'LOADED_SOLUTION':
       return Object.assign({}, state, { solutionLoaded: true })
