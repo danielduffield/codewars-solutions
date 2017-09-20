@@ -44,8 +44,7 @@ function reducer(state = {
         solutionLoaded: false
       })
     case 'UPDATED_SELECTED':
-      const selected = action.payload
-      return Object.assign({}, state, { selectedChallenge: selected, view: 'challengeView', solutionLoaded: false })
+      return Object.assign({}, state, { selectedChallenge: action.payload, view: 'challengeView', solutionLoaded: false })
     case 'LOADED_SOLUTION':
       return Object.assign({}, state, { solutionLoaded: true })
     case 'UPDATED_SOLUTION':
