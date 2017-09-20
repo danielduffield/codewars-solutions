@@ -8,12 +8,21 @@ class SolutionSubmitForm extends React.Component {
 
     this.updateView = this.updateView.bind(this)
     this.submitSolution = this.submitSolution.bind(this)
+    this.updateSolutionForm = this.updateSolutionForm.bind(this)
   }
   updateView(event) {
     this.props.dispatch({
       type: 'UPDATED_VIEW',
       payload: {
         text: event.target.dataset.view
+      }
+    })
+  }
+  updateSolutionForm(event) {
+    this.props.dispatch({
+      type: 'UPDATED_SOLUTION_FORM',
+      payload: {
+        text: event.target.value
       }
     })
   }
@@ -31,10 +40,12 @@ class SolutionSubmitForm extends React.Component {
   render() {
     return (
       <FormContainer className={this.props.view === 'solutionForm' ? '' : 'hidden'}>
-        <ChallengeTitle>Codewars Challenge: Snail</ChallengeTitle>
+        <ChallengeTitle>{'Codewars Challenge: ' + this.props.selected.challenge.name}</ChallengeTitle>
         <h4>Submit a Solution</h4>
         <form onSubmit={this.submitSolution}>
-          <SolutionTextarea name="solution-textarea"></SolutionTextarea>
+          <SolutionTextarea className="code-text" name="solution-textarea"
+            value={this.props.solutionForm} onChange={this.updateSolutionForm} required>
+          </SolutionTextarea>
           <button type="button" className="btn btn-default challenge-view-btn"
             onClick={this.updateView} data-view="challengeView">Cancel</button>
           <SubmitButton type="submit" className="btn btn-default challenge-view-btn"
@@ -69,7 +80,9 @@ const SubmitButton = styled.button`
 
 function mapStateToProps(state) {
   return {
-    view: state.view
+    view: state.view,
+    selected: state.selectedChallenge,
+    solutionForm: state.solutionForm
   }
 }
 

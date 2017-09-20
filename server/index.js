@@ -5,10 +5,22 @@ const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
 const request = require('request')
 
+const readSolution = require('./utils/readSolution.js')
+
 const server = app.listen(process.env.PORT, () => console.log('Listening on PORT...'))
 
 app.use(jsonParser)
 app.use(express.static('server/public'))
+
+app.get('/solution/:name', (req, res) => {
+  readSolution(req.params.name.toLowerCase())
+    .then(solution => {
+      res.send(JSON.stringify({ solution })).status(200)
+    }).catch(err => {
+      console.log(err)
+      res.sendStatus(400)
+    })
+})
 
 app.post('/submit-url', (req, res) => {
   console.log(req.body.url)
