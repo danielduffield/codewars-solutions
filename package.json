@@ -1,6 +1,9 @@
 {
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "7.10.1"
+  },
   "scripts": {
     "cover": "nyc --reporter=lcov npm run test:mocha",
     "lint": "run-p lint:*",
