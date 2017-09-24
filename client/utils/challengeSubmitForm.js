@@ -34,7 +34,7 @@ class ChallengeSubmitForm extends React.Component {
     })
   }
   updateChallengeList(challengeData) {
-    fetchSolution(challengeData.name).then(response => {
+    fetchSolution(challengeData.challenge.name).then(response => {
       this.props.dispatch({
         type: 'ADDED_CHALLENGE',
         payload: {
