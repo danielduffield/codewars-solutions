@@ -13,7 +13,7 @@ app.use(jsonParser)
 app.use(express.static('server/public'))
 
 app.get('/solution/:name', (req, res) => {
-  readSolution(req.params.name.toLowerCase())
+  readSolution(req.params.name)
     .then(solution => {
       res.send(JSON.stringify({ solution })).status(200)
     }).catch(err => {
