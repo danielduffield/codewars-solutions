@@ -12,6 +12,7 @@
     "db:down": "pg-bump down",
     "db:status": "pg-bump status",
     "db:rebuild": "pg-bump down && pg-bump up",
+    "heroku-postbuild": "npm run db:up",
     "lint": "run-p lint:*",
     "lint:html": "htmlhint ./**/*.html",
     "lint:css": "stylelint ./**/*.css",
