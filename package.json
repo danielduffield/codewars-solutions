@@ -4,6 +4,7 @@
   "engines": {
     "node": "7.10.1"
   },
+  "main": "index.js",
   "scripts": {
     "cover": "nyc --reporter=lcov npm run test:mocha",
     "lint": "run-p lint:*",
