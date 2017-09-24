@@ -1,7 +1,13 @@
 function fetchSolution(challengeName) {
-  return fetch('/solution/' + challengeName)
+  const parsedName = parseCodewarsName(challengeName)
+  return fetch('/solution/' + parsedName)
     .then(responseData => responseData.json())
 
 }
 
-module.exports = fetchSolution
+function parseCodewarsName(name) {
+  return name.split('').map(char => char.toLowerCase()).join('')
+    .replace(/ /g, '-')
+}
+
+export default fetchSolution
