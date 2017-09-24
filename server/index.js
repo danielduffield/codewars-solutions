@@ -4,6 +4,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
 const request = require('request')
+const { knexSelectAll } = require('./utils/knexCommands.js')
 
 const readSolution = require('./utils/readSolution.js')
 
@@ -13,6 +14,7 @@ app.use(jsonParser)
 app.use(express.static('server/public'))
 
 app.get('/solution/:name', (req, res) => {
+  knexSelectAll('challenges').then(data => console.log(data))
   readSolution(req.params.name)
     .then(solution => {
       res.send(JSON.stringify({ solution })).status(200)
