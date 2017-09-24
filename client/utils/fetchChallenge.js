@@ -2,7 +2,7 @@ import showdown from 'showdown'
 const converter = new showdown.Converter()
 
 function fetchChallenge(url) {
-  fetch('/submit-url', {
+  return fetch('/submit-url', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
