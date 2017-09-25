@@ -1,12 +1,12 @@
 -- up
 
 create table challenges (
-  id CHAR(20),
-  url CHAR(50),
-  name CHAR(30),
-  author CHAR(20),
-  author_url CHAR(50),
-  difficulty CHAR(10)
+  id VARCHAR(20),
+  url VARCHAR(50),
+  name VARCHAR(30),
+  author VARCHAR(20),
+  author_url VARCHAR(50),
+  difficulty VARCHAR(10)
 );
 
 ---
