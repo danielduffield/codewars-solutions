@@ -23,7 +23,7 @@ app.get('/challenge-list', (req, res) => {
   knexSelectAll('challenges').then(challengeData => {
     const challenges = challengeData.map(challenge => {
       ids.push(challenge.id)
-      const omitted = omit(challenge, 'author_url')
+      const omitted = omit(challenge, ['author_url'])
       omitted.authorUrl = challenge.author_url
       omitted.author = challenge.author
       omitted.url = challenge.url
