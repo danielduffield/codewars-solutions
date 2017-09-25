@@ -28,11 +28,13 @@ function reducer(state = {
     description: '',
     solution: ''
   },
-  challenges: examples,
+  challenges: [],
   fetchedData: [],
   solutionLoaded: false
 }, action) {
   switch (action.type) {
+    case 'LOADED_CHALLENGE_LIST':
+      return Object.assign({}, state, { challenges: action.payload })
     case 'UPDATED_VIEW':
       return Object.assign({}, state, { view: action.payload.text, urlForm: '' })
     case 'UPDATED_URL_FORM':
