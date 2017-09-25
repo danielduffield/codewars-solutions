@@ -8,6 +8,7 @@ const request = require('request')
 const readSolution = require('./utils/readSolution.js')
 const { knexSelectAll } = require('./utils/knexCommands.js')
 const parseApiData = require('./utils/parseApiData.js')
+const addChallenge = require('./utils/addChallenge.js')
 
 const server = app.listen(process.env.PORT, () => console.log('Listening on PORT...'))
 
@@ -35,7 +36,9 @@ app.post('/submit-url', (req, res) => {
   const challengeApiUrl = parseUrl(req.body.url)
   getCodewarsChallenge(challengeApiUrl).then(response => {
     const challengeData = parseApiData(JSON.parse(response.body))
-    res.status(201).send(challengeData)
+    addChallenge(challengeData).then(() => {
+      res.status(201).send(challengeData)
+    })
   }).catch(err => {
     console.log(err)
     res.sendStatus(400)
