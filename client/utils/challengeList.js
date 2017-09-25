@@ -95,7 +95,7 @@ class ChallengeList extends React.Component {
                     </ChallengeLink>
                   </ChallengeName>
                   <ChallengeAuthor>
-                    <ChallengeLink href={challenge.authorUrl}>
+                    <ChallengeLink href={'https://www.codewars.com/users/' + challenge.authorUrl}>
                       {challenge.author}
                     </ChallengeLink>
                   </ChallengeAuthor>
