@@ -15,8 +15,15 @@ const server = app.listen(process.env.PORT, () => console.log('Listening on PORT
 app.use(jsonParser)
 app.use(express.static('server/public'))
 
+let challengeIdList = []
+
 app.get('/challenge-list', (req, res) => {
+  const ids = []
   knexSelectAll('challenges').then(challenges => {
+    challenges.forEach(challenge => {
+      ids.push(challenge.id)
+    })
+    challengeIdList = [...ids]
     res.send(JSON.stringify({ challenges }))
   })
 })
@@ -35,9 +42,12 @@ app.post('/submit-url', (req, res) => {
   console.log(req.body.url)
   getCodewarsChallenge(req.body.url).then(response => {
     const challengeData = parseApiData(JSON.parse(response.body))
-    addChallenge(challengeData).then(() => {
-      res.status(201).send(challengeData)
-    })
+    if (!challengeIdList.includes(challengeData.challenge.id)) {
+      addChallenge(challengeData).then(() => {
+        res.status(201).send(challengeData)
+      })
+    }
+    else res.status(201).send(challengeData)
   }).catch(err => {
     console.log(err)
     res.sendStatus(400)
@@ -45,7 +55,8 @@ app.post('/submit-url', (req, res) => {
 })
 
 function getCodewarsChallenge(url) {
-  const apiUrl = 'https://www.codewars.com/api/v1/code-challenges/' + url
+  const apiUrl = url.replace(/codewars.com\/kata\//, 'codewars.com/api/v1/code-challenges/')
+  console.log('API URL: ', apiUrl)
   return new Promise((resolve, reject) => {
     request.get(apiUrl, (err, response, body) => err ? reject(err) : resolve(response))
   })
