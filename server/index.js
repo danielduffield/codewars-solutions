@@ -33,8 +33,7 @@ app.get('/solution/:name', (req, res) => {
 
 app.post('/submit-url', (req, res) => {
   console.log(req.body.url)
-  const challengeApiUrl = parseUrl(req.body.url)
-  getCodewarsChallenge(challengeApiUrl).then(response => {
+  getCodewarsChallenge(req.body.url).then(response => {
     const challengeData = parseApiData(JSON.parse(response.body))
     addChallenge(challengeData).then(() => {
       res.status(201).send(challengeData)
@@ -46,13 +45,10 @@ app.post('/submit-url', (req, res) => {
 })
 
 function getCodewarsChallenge(url) {
+  const apiUrl = 'https://www.codewars.com/api/v1/code-challenges/' + url
   return new Promise((resolve, reject) => {
-    request.get(url, (err, response, body) => err ? reject(err) : resolve(response))
+    request.get(apiUrl, (err, response, body) => err ? reject(err) : resolve(response))
   })
-}
-
-function parseUrl(url) {
-  return url.replace(/codewars.com\/kata\//, 'codewars.com/api/v1/code-challenges/')
 }
 
 module.exports = server
