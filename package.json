@@ -7,6 +7,12 @@
   "main": "index.js",
   "scripts": {
     "cover": "nyc --reporter=lcov npm run test:mocha",
+    "db:make": "pg-bump create",
+    "db:up": "pg-bump up",
+    "db:down": "pg-bump down",
+    "db:status": "pg-bump status",
+    "db:rebuild": "pg-bump down && pg-bump up",
+    "heroku-postbuild": "npm run db:up",
     "lint": "run-p lint:*",
     "lint:html": "htmlhint ./**/*.html",
     "lint:css": "stylelint ./**/*.css",
@@ -40,6 +46,7 @@
     "nodemon": "^1.11.0",
     "npm-run-all": "4.0.2",
     "nyc": "^11.1.0",
+    "pg-bump": "^1.0.4",
     "stylelint": "7.10.1",
     "stylelint-config-standard": "16.0.0",
     "watchify": "^3.9.0"
@@ -49,6 +56,7 @@
     "dotenv": "^4.0.0",
     "express": "^4.15.4",
     "fs-extra": "^4.0.2",
+    "knex": "^0.13.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",

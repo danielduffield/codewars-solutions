@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import fetchSolution from './fetchSolution.js'
-import fetchDescription from './fetchDescription.js'
+import fetchChallenge from './fetchChallenge.js'
 
 class ChallengeList extends React.Component {
   constructor(props) {
@@ -11,6 +11,16 @@ class ChallengeList extends React.Component {
     this.updateView = this.updateView.bind(this)
     this.updateSelected = this.updateSelected.bind(this)
     this.hasBeenFetched = this.hasBeenFetched.bind(this)
+  }
+  componentDidMount() {
+    fetch('/challenge-list')
+      .then(challengeData => challengeData.json())
+      .then(response => {
+        this.props.dispatch({
+          type: 'LOADED_CHALLENGE_LIST',
+          payload: response.challenges
+        })
+      })
   }
   updateView(event) {
     this.props.dispatch({
@@ -39,9 +49,9 @@ class ChallengeList extends React.Component {
         }
       })
     }
-    Promise.all([fetchDescription(challenge.url), fetchSolution(challenge.name)])
+    Promise.all([fetchChallenge(challenge.url), fetchSolution(challenge.name)])
       .then(fetched => {
-        const description = fetched[0]
+        const description = fetched[0].description
         const solution = fetched[1].solution
         this.props.dispatch({
           type: 'UPDATED_SELECTED',
@@ -85,7 +95,7 @@ class ChallengeList extends React.Component {
                     </ChallengeLink>
                   </ChallengeName>
                   <ChallengeAuthor>
-                    <ChallengeLink href={challenge.authorUrl}>
+                    <ChallengeLink href={'https://www.codewars.com/users/' + challenge.authorUrl}>
                       {challenge.author}
                     </ChallengeLink>
                   </ChallengeAuthor>
