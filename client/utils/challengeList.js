@@ -12,6 +12,16 @@ class ChallengeList extends React.Component {
     this.updateSelected = this.updateSelected.bind(this)
     this.hasBeenFetched = this.hasBeenFetched.bind(this)
   }
+  componentDidMount() {
+    fetch('/challenge-list')
+      .then(challengeData => challengeData.json())
+      .then(response => {
+        this.props.dispatch({
+          type: 'LOADED_CHALLENGE_LIST',
+          payload: response.challenges
+        })
+      })
+  }
   updateView(event) {
     this.props.dispatch({
       type: 'UPDATED_VIEW',
