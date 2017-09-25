@@ -1,7 +1,7 @@
 -- up
 
 create table challenges (
-  id VARCHAR(20),
+  id VARCHAR(30),
   url VARCHAR(50),
   name VARCHAR(30),
   author VARCHAR(20),
