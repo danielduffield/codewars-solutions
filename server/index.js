@@ -7,7 +7,6 @@ const jsonParser = bodyParser.json()
 const getCodewarsChallenge = require('./utils/getCodewarsChallenge.js')
 const readSolution = require('./utils/readSolution.js')
 const { knexSelectAll } = require('./utils/knexCommands.js')
-const parseApiData = require('./utils/parseApiData.js')
 const addChallenge = require('./utils/addChallenge.js')
 const omit = require('./utils/omit.js')
 const populateDatabase = require('./utils/populateDatabase.js')
@@ -57,8 +56,7 @@ app.get('/solution/:name', (req, res) => {
 
 app.post('/submit-url', (req, res) => {
   console.log(req.body.url)
-  getCodewarsChallenge(req.body.url).then(response => {
-    const challengeData = parseApiData(JSON.parse(response.body))
+  getCodewarsChallenge(req.body.url).then(challengeData => {
     if (!challengeIdList.includes(challengeData.challenge.id)) {
       addChallenge(challengeData).then(() => {
         res.status(201).send(challengeData)
