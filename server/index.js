@@ -14,12 +14,15 @@ const populateDatabase = require('./utils/populateDatabase.js')
 
 const server = app.listen(process.env.PORT, () => console.log('Listening on PORT...'))
 
-populateDatabase().then(data => console.log('DONE: ', data))
+let challengeIdList = []
+
+knexSelectAll('challenges').then(existingData => {
+  existingData.forEach(challenge => challengeIdList.push(challenge.id))
+  populateDatabase(challengeIdList)
+})
 
 app.use(jsonParser)
 app.use(express.static('server/public'))
-
-let challengeIdList = []
 
 app.get('/challenge-list', (req, res) => {
   const ids = []
