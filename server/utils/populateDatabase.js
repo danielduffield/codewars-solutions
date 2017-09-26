@@ -9,14 +9,17 @@ function populateDatabase() {
   const filePath = path.join(__dirname, '../solutions')
   console.log(filePath)
   const loadingFiles = fs.readdir(filePath)
-  loadingFiles.then(files => files.forEach(buildChallenge))
+  return loadingFiles.then(files => {
+    return Promise.all(files.map(buildChallenge))
+  })
 }
 
 function buildChallenge(fileName) {
   const url = 'https://www.codewars.com/kata/' + fileName.replace('.js', '')
-  getCodewarsChallenge(url).then(response => {
+  return getCodewarsChallenge(url).then(response => {
     const challengeData = parseApiData(JSON.parse(response.body))
     console.log(fileName, challengeData)
+    return challengeData
   }).catch(err => console.log('Couldn\'t fetch: ', err))
 }
 
