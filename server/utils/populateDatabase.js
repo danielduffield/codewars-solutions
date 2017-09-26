@@ -3,7 +3,7 @@ const path = require('path')
 
 const getCodewarsChallenge = require('./getCodewarsChallenge.js')
 const parseApiData = require('./parseApiData.js')
-// const { knexInsert } = require('./knexCommands.js')
+const addChallenge = require('./addChallenge.js')
 
 function fetchAllChallenges() {
   const filePath = path.join(__dirname, '../solutions')
@@ -28,9 +28,9 @@ function filterExisting(fetchedChallenges, existingIds) {
 }
 
 function populateDatabase(existingIds) {
-  fetchAllChallenges().then(challengeList => {
+  return fetchAllChallenges().then(challengeList => {
     return filterExisting(challengeList, existingIds)
-  }).then(newChallenges => console.log('TO INSERT: ', newChallenges))
+  }).then(newChallenges => newChallenges.forEach(challengeData => addChallenge(challengeData)))
 }
 
 module.exports = populateDatabase
