@@ -10,6 +10,7 @@ const { knexSelectAll } = require('./utils/knexCommands.js')
 const parseApiData = require('./utils/parseApiData.js')
 const addChallenge = require('./utils/addChallenge.js')
 const omit = require('./utils/omit.js')
+const populateDatabase = require('./utils/populateDatabase.js')
 
 const server = app.listen(process.env.PORT, () => console.log('Listening on PORT...'))
 
@@ -19,6 +20,7 @@ app.use(express.static('server/public'))
 let challengeIdList = []
 
 app.get('/challenge-list', (req, res) => {
+  populateDatabase()
   const ids = []
   knexSelectAll('challenges').then(challengeData => {
     const challenges = challengeData.map(challenge => {
