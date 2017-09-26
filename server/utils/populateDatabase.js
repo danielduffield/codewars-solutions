@@ -22,16 +22,15 @@ function buildChallenge(fileName) {
   }).catch(err => console.log('Couldn\'t fetch: ', err))
 }
 
+function filterExisting(fetchedChallenges, existingIds) {
+  return fetchedChallenges
+    .filter(challengeData => !existingIds.includes(challengeData.challenge.id))
+}
+
 function populateDatabase(existingIds) {
-  console.log('EXISTING IDS: ', existingIds)
   fetchAllChallenges().then(challengeList => {
-    console.log('SOLUTION CHALLENGES: ', challengeList)
-    challengeList.forEach(challengeData => {
-      if (existingIds.includes(challengeData.challenge.id)) {
-        console.log('Found duplicate: ', challengeData.challenge.id)
-      }
-    })
-  })
+    return filterExisting(challengeList, existingIds)
+  }).then(newChallenges => console.log('TO INSERT: ', newChallenges))
 }
 
 module.exports = populateDatabase
