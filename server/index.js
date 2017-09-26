@@ -3,8 +3,8 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
-const request = require('request')
 
+const getCodewarsChallenge = require('./utils/getCodewarsChallenge.js')
 const readSolution = require('./utils/readSolution.js')
 const { knexSelectAll } = require('./utils/knexCommands.js')
 const parseApiData = require('./utils/parseApiData.js')
@@ -61,13 +61,5 @@ app.post('/submit-url', (req, res) => {
     res.sendStatus(400)
   })
 })
-
-function getCodewarsChallenge(url) {
-  const apiUrl = url.replace(/codewars.com\/kata\//, 'codewars.com/api/v1/code-challenges/')
-  console.log('API URL: ', apiUrl)
-  return new Promise((resolve, reject) => {
-    request.get(apiUrl, (err, response, body) => err ? reject(err) : resolve(response))
-  })
-}
 
 module.exports = server
