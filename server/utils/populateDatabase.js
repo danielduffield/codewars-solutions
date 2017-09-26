@@ -18,7 +18,6 @@ function buildChallenge(fileName) {
   const url = 'https://www.codewars.com/kata/' + fileName.replace('.js', '')
   return getCodewarsChallenge(url).then(response => {
     const challengeData = parseApiData(JSON.parse(response.body))
-    console.log(fileName, challengeData)
     return challengeData
   }).catch(err => console.log('Couldn\'t fetch: ', err))
 }
