@@ -49,7 +49,7 @@ app.post('/submit-url', (req, res) => {
   console.log(req.body.url)
   getCodewarsChallenge(req.body.url).then(challengeData => {
     if (!challengeIdList.includes(challengeData.challenge.id)) {
-      fetchedData = [...fetchedData, ...challengeData]
+      fetchedData = [...fetchedData, challengeData]
       addChallenge(challengeData).then(() => {
         res.status(201).send(challengeData)
       })
