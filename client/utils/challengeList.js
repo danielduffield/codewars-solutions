@@ -32,20 +32,21 @@ class ChallengeList extends React.Component {
   }
   hasBeenFetched(challenge) {
     const fetchedIndex = this.props.fetchedData.findIndex(data => data.challenge.id === challenge.id)
+    console.log('HAS BEEN FETCHED: ', fetchedIndex !== -1)
     return fetchedIndex !== -1 ? this.props.fetchedData[fetchedIndex] : null
   }
   updateSelected(event) {
     const selectedId = event.target.dataset.id
     const selectedIndex = this.props.challenges.findIndex(challenge => challenge.id === selectedId)
     const challenge = this.props.challenges[selectedIndex]
-    if (this.hasBeenFetched(challenge)) {
-      const fetched = this.hasBeenFetched(challenge)
+    const previouslyFetched = this.hasBeenFetched(challenge)
+    if (previouslyFetched) {
       return this.props.dispatch({
         type: 'UPDATED_SELECTED',
         payload: {
           challenge: challenge,
-          description: fetched.description,
-          solution: fetched.solution
+          description: previouslyFetched.description,
+          solution: previouslyFetched.solution
         }
       })
     }
