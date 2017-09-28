@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
+import socket from './socket-connection'
 import fetchSolution from './fetchSolution.js'
 import fetchChallenge from './fetchChallenge.js'
 
@@ -13,6 +14,7 @@ class ChallengeList extends React.Component {
     this.hasBeenFetched = this.hasBeenFetched.bind(this)
   }
   componentDidMount() {
+    socket.on('fetchedData', data => console.log(data))
     fetch('/challenge-list')
       .then(challengeData => challengeData.json())
       .then(response => {
