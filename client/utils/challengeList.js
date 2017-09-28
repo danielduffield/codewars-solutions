@@ -12,6 +12,7 @@ class ChallengeList extends React.Component {
     this.updateView = this.updateView.bind(this)
     this.updateSelected = this.updateSelected.bind(this)
     this.hasBeenFetched = this.hasBeenFetched.bind(this)
+    this.dispatchUpdate = this.dispatchUpdate.bind(this)
   }
   componentDidMount() {
     socket.on('fetchedData', fetchedChallenges => {
@@ -36,47 +37,38 @@ class ChallengeList extends React.Component {
     console.log('HAS BEEN FETCHED: ', fetchedIndex !== -1)
     return fetchedIndex !== -1 ? this.props.fetchedData[fetchedIndex] : null
   }
+  dispatchUpdate(challenge, description, solution) {
+    this.props.dispatch({
+      type: 'UPDATED_SELECTED',
+      payload: {
+        challenge,
+        description,
+        solution
+      }
+    })
+  }
   updateSelected(event) {
     const selectedId = event.target.dataset.id
     const selectedIndex = this.props.challenges.findIndex(challenge => challenge.id === selectedId)
     const challenge = this.props.challenges[selectedIndex]
-    const previouslyFetched = this.hasBeenFetched(challenge)
-    if (previouslyFetched) {
-      return this.props.dispatch({
-        type: 'UPDATED_SELECTED',
-        payload: {
-          challenge: challenge,
-          description: previouslyFetched.description,
-          solution: previouslyFetched.solution
-        }
-      })
-    }
     let description = ''
-    let solution = ''
-    fetchChallenge(challenge.url).then(challengeData => {
-      description = challengeData.description
+    const previouslyFetched = this.hasBeenFetched(challenge)
+
+    if (previouslyFetched) {
+      description = previouslyFetched.description
       fetchSolution(challenge.name).then(solutionData => {
-        solution = solutionData.solution
-        this.props.dispatch({
-          type: 'UPDATED_SELECTED',
-          payload: {
-            challenge: this.props.challenges[selectedIndex],
-            description,
-            solution
-          }
-        })
+        this.dispatchUpdate(challenge, description, solutionData.solution)
       }).catch(err => {
         console.log(err)
-        this.props.dispatch({
-          type: 'UPDATED_SELECTED',
-          payload: {
-            challenge: this.props.challenges[selectedIndex],
-            description: description,
-            solution: ''
-          }
-        })
+        this.dispatchUpdate(challenge, description, '')
       })
-    })
+    }
+    else {
+      fetchChallenge(challenge.url).then(challengeData => {
+        description = challengeData.description
+        this.dispatchUpdate(challenge, description, '')
+      })
+    }
   }
   render() {
     return (
