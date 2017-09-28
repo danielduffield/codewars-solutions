@@ -14,8 +14,9 @@ class ChallengeList extends React.Component {
     this.hasBeenFetched = this.hasBeenFetched.bind(this)
   }
   componentDidMount() {
-    socket.on('fetchedData', fetched => {
-      const challengeList = fetched.map(challengeData => challengeData.challenge)
+    socket.on('fetchedData', fetchedChallenges => {
+      const challengeList = fetchedChallenges.map(challengeData => challengeData.challenge)
+      const fetched = fetchedChallenges.filter(challengeData => challengeData.description)
       this.props.dispatch({
         type: 'RECEIVED_FETCHED_DATA',
         payload: { fetched, challengeList }
@@ -32,6 +33,7 @@ class ChallengeList extends React.Component {
   }
   hasBeenFetched(challenge) {
     const fetchedIndex = this.props.fetchedData.findIndex(data => data.challenge.id === challenge.id)
+    console.log('HAS BEEN FETCHED: ', fetchedIndex !== -1)
     return fetchedIndex !== -1 ? this.props.fetchedData[fetchedIndex] : null
   }
   updateSelected(event) {
@@ -49,10 +51,12 @@ class ChallengeList extends React.Component {
         }
       })
     }
-    Promise.all([fetchChallenge(challenge.url), fetchSolution(challenge.name)])
-      .then(fetched => {
-        const description = fetched[0].description
-        const solution = fetched[1].solution
+    let description = ''
+    let solution = ''
+    fetchChallenge(challenge.url).then(challengeData => {
+      description = challengeData.description
+      fetchSolution(challenge.name).then(solutionData => {
+        solution = solutionData.solution
         this.props.dispatch({
           type: 'UPDATED_SELECTED',
           payload: {
@@ -61,18 +65,18 @@ class ChallengeList extends React.Component {
             solution
           }
         })
-      })
-      .catch(err => {
+      }).catch(err => {
         console.log(err)
         this.props.dispatch({
           type: 'UPDATED_SELECTED',
           payload: {
             challenge: this.props.challenges[selectedIndex],
-            description: '',
+            description: description,
             solution: ''
           }
         })
       })
+    })
   }
   render() {
     return (
