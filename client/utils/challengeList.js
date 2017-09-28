@@ -32,7 +32,6 @@ class ChallengeList extends React.Component {
   }
   hasBeenFetched(challenge) {
     const fetchedIndex = this.props.fetchedData.findIndex(data => data.challenge.id === challenge.id)
-    console.log('HAS BEEN FETCHED: ', fetchedIndex !== -1)
     return fetchedIndex !== -1 ? this.props.fetchedData[fetchedIndex] : null
   }
   updateSelected(event) {
