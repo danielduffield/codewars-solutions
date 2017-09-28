@@ -4,6 +4,9 @@ const app = express()
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
 
+const server = require('http').Server(app)
+const io = require('socket.io').listen(server)
+
 const getCodewarsChallenge = require('./utils/getCodewarsChallenge.js')
 const readSolution = require('./utils/readSolution.js')
 const { knexSelectAll } = require('./utils/knexCommands.js')
@@ -11,15 +14,17 @@ const addChallenge = require('./utils/addChallenge.js')
 const omit = require('./utils/omit.js')
 const populateDatabase = require('./utils/populateDatabase.js')
 
-const server = app.listen(process.env.PORT, () => console.log('Listening on PORT...'))
+server.listen(process.env.PORT, () => console.log('Listening on PORT...'))
 
 let challengeIdList = []
+let fetchedData = []
 
 knexSelectAll('challenges').then(existingData => {
   existingData.forEach(challenge => challengeIdList.push(challenge.id))
   populateDatabase(challengeIdList).then(insertedChallenges => {
     insertedChallenges.forEach(challenge => {
       challengeIdList.push(challenge[0].id)
+      fetchedData = [...fetchedData, ...insertedChallenges]
     })
     console.log('CHALLENGE ID LIST: ', challengeIdList)
   })
@@ -58,6 +63,7 @@ app.post('/submit-url', (req, res) => {
   console.log(req.body.url)
   getCodewarsChallenge(req.body.url).then(challengeData => {
     if (!challengeIdList.includes(challengeData.challenge.id)) {
+      fetchedData = [...fetchedData, ...challengeData]
       addChallenge(challengeData).then(() => {
         res.status(201).send(challengeData)
       })
@@ -69,4 +75,9 @@ app.post('/submit-url', (req, res) => {
   })
 })
 
-module.exports = server
+io.sockets.on('connection', newConnection)
+
+function newConnection(socket) {
+  console.log('CONNECTED: ', socket.id)
+  socket.emit('fetchedData', fetchedData)
+}
