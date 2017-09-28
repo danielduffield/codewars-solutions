@@ -24,11 +24,17 @@ function filterExisting(fetchedChallenges, existingIds) {
 }
 
 function populateDatabase(existingIds) {
+  let fetchedData = []
   return fetchAllChallenges().then(challengeList => {
+    fetchedData = challengeList
     return filterExisting(challengeList, existingIds)
   }).then(newChallenges => {
     console.log('NEW CHALLENGES TO INSERT: ', newChallenges)
-    return Promise.all(newChallenges.map(challengeData => addChallenge(challengeData)))
+    const challenges = {
+      complete: fetchedData,
+      inserts: Promise.all(newChallenges.map(challengeData => addChallenge(challengeData)))
+    }
+    return challenges
   })
 }
 
