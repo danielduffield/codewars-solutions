@@ -63,6 +63,7 @@
     "redux": "^3.7.2",
     "request": "^2.81.0",
     "showdown": "^1.7.4",
+    "socket.io": "^2.0.3",
     "styled-components": "^2.1.2"
   }
 }
