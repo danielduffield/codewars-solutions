@@ -21,13 +21,17 @@ let fetchedData = []
 
 knexSelectAll('challenges').then(existingData => {
   existingData.forEach(challenge => challengeIdList.push(challenge.id))
-  populateDatabase(challengeIdList).then(insertedChallenges => {
-    insertedChallenges.forEach(challenge => {
-      challengeIdList.push(challenge[0].id)
-      fetchedData = [...fetchedData, ...insertedChallenges]
+  populateDatabase(challengeIdList).then(challenges => {
+    challenges.inserts.then(insertedChallenges => {
+      insertedChallenges.forEach(challenge => {
+        challengeIdList.push(challenge[0].id)
+      })
+      console.log('CHALLENGE ID LIST: ', challengeIdList)
     })
-    console.log('CHALLENGE ID LIST: ', challengeIdList)
+    console.log('COMPLETE: ', challenges.complete)
+    fetchedData = [...fetchedData, ...challenges.complete]
   })
+
 })
 
 app.use(jsonParser)
