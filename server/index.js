@@ -11,7 +11,6 @@ const getCodewarsChallenge = require('./utils/getCodewarsChallenge.js')
 const readSolution = require('./utils/readSolution.js')
 const { knexSelectAll } = require('./utils/knexCommands.js')
 const addChallenge = require('./utils/addChallenge.js')
-const omit = require('./utils/omit.js')
 const populateDatabase = require('./utils/populateDatabase.js')
 
 server.listen(process.env.PORT, () => console.log('Listening on PORT...'))
@@ -31,27 +30,10 @@ knexSelectAll('challenges').then(existingData => {
     console.log('COMPLETE: ', challenges.complete)
     fetchedData = [...fetchedData, ...challenges.complete]
   })
-
 })
 
 app.use(jsonParser)
 app.use(express.static('server/public'))
-
-app.get('/challenge-list', (req, res) => {
-  const ids = []
-  knexSelectAll('challenges').then(challengeData => {
-    const challenges = challengeData.map(challenge => {
-      ids.push(challenge.id)
-      const omitted = omit(challenge, ['author_url'])
-      omitted.authorUrl = challenge.author_url
-      omitted.author = challenge.author
-      omitted.url = challenge.url
-      return omitted
-    })
-    challengeIdList = [...ids]
-    res.send(JSON.stringify({ challenges }))
-  })
-})
 
 app.get('/solution/:name', (req, res) => {
   readSolution(req.params.name)
