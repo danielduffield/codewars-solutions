@@ -28,7 +28,20 @@ knexSelectAll('challenges').then(existingData => {
       console.log('CHALLENGE ID LIST: ', challengeIdList)
     })
     console.log('COMPLETE: ', challenges.complete)
-    fetchedData = [...fetchedData, ...challenges.complete]
+    const solvedIds = challenges.complete.map(completed => completed.challenge.id)
+    const unsolvedChallenges = existingData.filter(challenge => {
+      return (!solvedIds.includes(challenge.id))
+    })
+    const unsolvedData = unsolvedChallenges.map(challenge => {
+      const unsolvedObject = {
+        challenge,
+        solution: null,
+        description: null
+      }
+      return unsolvedObject
+    })
+    console.log('UNSOLVED: ', unsolvedData)
+    fetchedData = [...fetchedData, ...challenges.complete, ...unsolvedData]
   })
 })
 
@@ -51,6 +64,7 @@ app.post('/submit-url', (req, res) => {
     if (!challengeIdList.includes(challengeData.challenge.id)) {
       fetchedData = [...fetchedData, challengeData]
       addChallenge(challengeData).then(() => {
+        challengeIdList.push(challengeData.challenge.id)
         res.status(201).send(challengeData)
       })
     }
