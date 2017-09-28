@@ -14,15 +14,13 @@ class ChallengeList extends React.Component {
     this.hasBeenFetched = this.hasBeenFetched.bind(this)
   }
   componentDidMount() {
-    socket.on('fetchedData', data => console.log(data))
-    fetch('/challenge-list')
-      .then(challengeData => challengeData.json())
-      .then(response => {
-        this.props.dispatch({
-          type: 'LOADED_CHALLENGE_LIST',
-          payload: response.challenges
-        })
+    socket.on('fetchedData', fetched => {
+      const challengeList = fetched.map(challengeData => challengeData.challenge)
+      this.props.dispatch({
+        type: 'RECEIVED_FETCHED_DATA',
+        payload: { fetched, challengeList }
       })
+    })
   }
   updateView(event) {
     this.props.dispatch({
