@@ -33,8 +33,8 @@ function reducer(state = {
   solutionLoaded: false
 }, action) {
   switch (action.type) {
-    case 'LOADED_CHALLENGE_LIST':
-      return Object.assign({}, state, { challenges: action.payload })
+    case 'RECEIVED_FETCHED_DATA':
+      return Object.assign({}, state, { fetchedData: action.payload.fetched, challenges: action.payload.challengeList })
     case 'UPDATED_VIEW':
       return Object.assign({}, state, { view: action.payload.text, urlForm: '' })
     case 'UPDATED_URL_FORM':
@@ -75,7 +75,7 @@ function reducer(state = {
         challenges: updatedChallenges,
         view: 'challengeView',
         selectedChallenge: updated,
-        fetchedData: [...state.fetchedData, updated],
+        fetchedData: [...state.fetchedData, updated], // REPLACE OLD CHALLENGE, NOT SUBMIT NEW CHALLENGE
         solutionLoaded: true,
         solutionForm: ''
       })

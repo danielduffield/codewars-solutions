@@ -1,5 +1,13 @@
+const request = require('request')
 const showdown = require('showdown')
 const converter = new showdown.Converter()
+
+function getCodewarsChallenge(url) {
+  const apiUrl = url.replace(/codewars.com\/kata\//, 'codewars.com/api/v1/code-challenges/')
+  return new Promise((resolve, reject) => {
+    request.get(apiUrl, (err, response, body) => err ? reject(err) : resolve(response))
+  }).then(response => parseApiData(JSON.parse(response.body)))
+}
 
 function parseApiData(response) {
   const url = response.url.replace('https://www.codewars.com/kata/', '')
@@ -17,4 +25,4 @@ function parseApiData(response) {
   }
 }
 
-module.exports = parseApiData
+module.exports = getCodewarsChallenge

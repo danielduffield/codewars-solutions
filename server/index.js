@@ -3,36 +3,50 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
-const request = require('request')
 
+const server = require('http').Server(app)
+const io = require('socket.io').listen(server)
+
+const getCodewarsChallenge = require('./utils/getCodewarsChallenge.js')
 const readSolution = require('./utils/readSolution.js')
 const { knexSelectAll } = require('./utils/knexCommands.js')
-const parseApiData = require('./utils/parseApiData.js')
 const addChallenge = require('./utils/addChallenge.js')
-const omit = require('./utils/omit.js')
+const populateDatabase = require('./utils/populateDatabase.js')
 
-const server = app.listen(process.env.PORT, () => console.log('Listening on PORT...'))
+server.listen(process.env.PORT, () => console.log('Listening on PORT...'))
+
+let challengeIdList = []
+let fetchedData = []
+
+knexSelectAll('challenges').then(existingData => {
+  existingData.forEach(challenge => challengeIdList.push(challenge.id))
+  populateDatabase(challengeIdList).then(challenges => {
+    challenges.inserts.then(insertedChallenges => {
+      insertedChallenges.forEach(challenge => {
+        challengeIdList.push(challenge[0].id)
+      })
+      console.log('CHALLENGE ID LIST: ', challengeIdList)
+    })
+    console.log('COMPLETE: ', challenges.complete)
+    const solvedIds = challenges.complete.map(completed => completed.challenge.id)
+    const unsolvedChallenges = existingData.filter(challenge => {
+      return (!solvedIds.includes(challenge.id))
+    })
+    const unsolvedData = unsolvedChallenges.map(challenge => {
+      const unsolvedObject = {
+        challenge,
+        solution: null,
+        description: null
+      }
+      return unsolvedObject
+    })
+    console.log('UNSOLVED: ', unsolvedData)
+    fetchedData = [...fetchedData, ...challenges.complete, ...unsolvedData]
+  })
+})
 
 app.use(jsonParser)
 app.use(express.static('server/public'))
-
-let challengeIdList = []
-
-app.get('/challenge-list', (req, res) => {
-  const ids = []
-  knexSelectAll('challenges').then(challengeData => {
-    const challenges = challengeData.map(challenge => {
-      ids.push(challenge.id)
-      const omitted = omit(challenge, ['author_url'])
-      omitted.authorUrl = challenge.author_url
-      omitted.author = challenge.author
-      omitted.url = challenge.url
-      return omitted
-    })
-    challengeIdList = [...ids]
-    res.send(JSON.stringify({ challenges }))
-  })
-})
 
 app.get('/solution/:name', (req, res) => {
   readSolution(req.params.name)
@@ -46,10 +60,11 @@ app.get('/solution/:name', (req, res) => {
 
 app.post('/submit-url', (req, res) => {
   console.log(req.body.url)
-  getCodewarsChallenge(req.body.url).then(response => {
-    const challengeData = parseApiData(JSON.parse(response.body))
+  getCodewarsChallenge(req.body.url).then(challengeData => {
     if (!challengeIdList.includes(challengeData.challenge.id)) {
+      fetchedData = [...fetchedData, challengeData]
       addChallenge(challengeData).then(() => {
+        challengeIdList.push(challengeData.challenge.id)
         res.status(201).send(challengeData)
       })
     }
@@ -60,12 +75,9 @@ app.post('/submit-url', (req, res) => {
   })
 })
 
-function getCodewarsChallenge(url) {
-  const apiUrl = url.replace(/codewars.com\/kata\//, 'codewars.com/api/v1/code-challenges/')
-  console.log('API URL: ', apiUrl)
-  return new Promise((resolve, reject) => {
-    request.get(apiUrl, (err, response, body) => err ? reject(err) : resolve(response))
-  })
-}
+io.sockets.on('connection', newConnection)
 
-module.exports = server
+function newConnection(socket) {
+  console.log('CONNECTED: ', socket.id)
+  socket.emit('fetchedData', fetchedData)
+}
