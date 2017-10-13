@@ -50,3 +50,7 @@ thead {
 .challenge-view-btn {
   margin-bottom: 30px;
 }
+
+.dark-row {
+  background-color: lightgrey;
+}
