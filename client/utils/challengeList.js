@@ -85,17 +85,17 @@ class ChallengeList extends React.Component {
             {this.props.challenges.map((challenge, index) => {
               return (
                 <tr key={index}>
-                  <ChallengeName>
+                  <ChallengeName className={index % 2 === 1 ? 'dark-row' : ''}>
                     <ChallengeLink href={'#'} data-id={challenge.id} onClick={this.updateSelected}>
                       {challenge.name}
                     </ChallengeLink>
                   </ChallengeName>
-                  <ChallengeAuthor>
+                  <ChallengeAuthor className={index % 2 === 1 ? 'dark-row' : ''}>
                     <ChallengeLink href={'https://www.codewars.com/users/' + challenge.authorUrl}>
                       {challenge.author}
                     </ChallengeLink>
                   </ChallengeAuthor>
-                  <ChallengeDifficulty>{challenge.difficulty}</ChallengeDifficulty>
+                  <ChallengeDifficulty className={index % 2 === 1 ? 'dark-row' : ''}>{challenge.difficulty}</ChallengeDifficulty>
                 </tr>
               )
             })}

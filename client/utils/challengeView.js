@@ -73,7 +73,7 @@ class ChallengeView extends React.Component {
             className={this.props.selected.solution && !this.props.solutionLoaded
               ? 'btn btn-default challenge-view-btn' : 'hidden'}
             onClick={this.loadSolution} data-view="solutionForm">View the Solution.</SubmitButton>
-          <SubmitButton className="btn btn-default challenge-view-btn"
+          <SubmitButton className={'btn btn-default challenge-view-btn' + (this.props.solutionLoaded ? ' pull-right' : '')}
             onClick={this.updateView} data-view="challengeList">Return to Challenge List</SubmitButton>
         </ButtonContainer>
       </div>

@@ -24,7 +24,7 @@ td {
 
 thead {
   font-size: 1.5em;
-  background-color: lightgrey;
+  background-color: darkgrey;
 }
 
 #background {
@@ -49,4 +49,8 @@ thead {
 
 .challenge-view-btn {
   margin-bottom: 30px;
+}
+
+.dark-row {
+  background-color: lightgrey;
 }
