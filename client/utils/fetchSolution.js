@@ -7,7 +7,7 @@ function fetchSolution(challengeName) {
 
 function parseCodewarsName(name) {
   return name.split('').map(char => char.toLowerCase()).join('')
-    .replace(/ /g, '-').replace('!', '')
+    .replace(/ /g, '-').replace('!', '').replace(':', '')
 }
 
 export default fetchSolution
