@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import socket from './socket-connection'
 import fetchSolution from './fetchSolution.js'
 import fetchChallenge from './fetchChallenge.js'
 
@@ -13,16 +12,7 @@ class ChallengeList extends React.Component {
     this.hasBeenFetched = this.hasBeenFetched.bind(this)
     this.dispatchUpdate = this.dispatchUpdate.bind(this)
   }
-  componentDidMount() {
-    socket.on('fetchedData', fetchedChallenges => {
-      const challengeList = fetchedChallenges.map(challengeData => challengeData.challenge)
-      const fetched = fetchedChallenges.filter(challengeData => challengeData.description)
-      this.props.dispatch({
-        type: 'RECEIVED_FETCHED_DATA',
-        payload: { fetched, challengeList }
-      })
-    })
-  }
+
   hasBeenFetched(challenge) {
     const fetchedIndex = this.props.fetchedData.findIndex(data => data.challenge.id === challenge.id)
     console.log('HAS BEEN FETCHED: ', fetchedIndex !== -1)
