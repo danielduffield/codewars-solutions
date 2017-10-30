@@ -9,7 +9,6 @@ import fetchChallenge from './fetchChallenge.js'
 class ChallengeList extends React.Component {
   constructor(props) {
     super(props)
-    this.updateView = this.updateView.bind(this)
     this.updateSelected = this.updateSelected.bind(this)
     this.hasBeenFetched = this.hasBeenFetched.bind(this)
     this.dispatchUpdate = this.dispatchUpdate.bind(this)
@@ -22,14 +21,6 @@ class ChallengeList extends React.Component {
         type: 'RECEIVED_FETCHED_DATA',
         payload: { fetched, challengeList }
       })
-    })
-  }
-  updateView(event) {
-    this.props.dispatch({
-      type: 'UPDATED_VIEW',
-      payload: {
-        text: event.target.dataset.view
-      }
     })
   }
   hasBeenFetched(challenge) {
