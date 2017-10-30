@@ -98,11 +98,11 @@ function parseHash(url) {
   const validHashes = ['home', 'challenge', 'submit-challenge']
   const views = ['challengeList', 'challengeView', 'submitForm']
   validHashes.forEach((hash, index) => {
-    if (hash === url) {
+    if (hash === url.split('?')[0]) {
       parsed = views[index]
     }
   })
-  return parsed || 'home'
+  return parsed || 'challengeList'
 }
 
 export default createStore(reducer)
