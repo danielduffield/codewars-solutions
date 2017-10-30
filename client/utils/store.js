@@ -38,10 +38,16 @@ function reducer(state = {
     case 'UPDATED_VIEW':
       return Object.assign({}, state, { view: action.payload.text, urlForm: '' })
     case 'HASH_CHANGED':
-      const parsed = parseHash(action.payload.hash)
+      const { view, selectedId } = parseHash(action.payload.hash)
+      let selectedChallenge = null
+      if (selectedId) {
+        const selectedIndex = state.fetchedData.findIndex(data => data.challenge.id === selectedId)
+        selectedChallenge = state.fetchedData[selectedIndex]
+      }
       return Object.assign({}, state,
         {
-          view: (parsed || state.view),
+          view: (view || state.view),
+          selectedChallenge,
           contact: {
             input: '',
             selected: ''
@@ -102,7 +108,12 @@ function parseHash(url) {
       parsed = views[index]
     }
   })
-  return parsed || 'challengeList'
+  let selectedId = ''
+  if (parsed === 'challengeView') selectedId = url.replace('challenge?', '')
+  return {
+    view: parsed || 'challengeList',
+    selectedId
+  }
 }
 
 export default createStore(reducer)
