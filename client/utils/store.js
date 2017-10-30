@@ -34,7 +34,19 @@ function reducer(state = {
 }, action) {
   switch (action.type) {
     case 'RECEIVED_FETCHED_DATA':
-      return Object.assign({}, state, { fetchedData: action.payload.fetched, challenges: action.payload.challengeList })
+      const parsedHash = parseHash(action.payload.hash)
+      let selected = null
+      if (parsedHash.selectedId) {
+        const selectedIndex = action.payload.fetched.findIndex(data => data.challenge.id === parsedHash.selectedId)
+        selected = action.payload.fetched[selectedIndex]
+        console.log(parsedHash.selectedId, selectedIndex, selected)
+      }
+      return Object.assign({}, state, {
+        fetchedData: action.payload.fetched,
+        challenges: action.payload.challengeList,
+        view: parsedHash.view || state.view,
+        selectedChallenge: selected || state.selectedChallenge
+      })
     case 'UPDATED_VIEW':
       return Object.assign({}, state, { view: action.payload.text, urlForm: '' })
     case 'HASH_CHANGED':
