@@ -102,8 +102,9 @@ class ChallengeList extends React.Component {
           </tbody>
         </table>
         <p className="text-center">*Difficulty increases at lower Kyu ratings</p>
-        <button type="button" className="btn btn-default"
-          onClick={this.updateView} data-view="submitForm">Submit a new challenge.</button>
+        <a href="#submit-challenge">
+          <button type="button" className="btn btn-default">Submit a new challenge.</button>
+        </a>
       </div>
     )
   }
