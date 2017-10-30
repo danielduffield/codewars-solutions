@@ -47,7 +47,7 @@ function reducer(state = {
       return Object.assign({}, state,
         {
           view: (view || state.view),
-          selectedChallenge,
+          selectedChallenge: selectedChallenge || state.selectedChallenge,
           contact: {
             input: '',
             selected: ''
