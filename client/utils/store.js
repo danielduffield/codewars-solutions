@@ -37,6 +37,16 @@ function reducer(state = {
       return Object.assign({}, state, { fetchedData: action.payload.fetched, challenges: action.payload.challengeList })
     case 'UPDATED_VIEW':
       return Object.assign({}, state, { view: action.payload.text, urlForm: '' })
+    case 'HASH_CHANGED':
+      const parsed = parseHash(action.payload.hash)
+      return Object.assign({}, state,
+        {
+          view: (parsed || state.view),
+          contact: {
+            input: '',
+            selected: ''
+          }
+        })
     case 'UPDATED_URL_FORM':
       return Object.assign({}, state, { urlForm: action.payload.text })
     case 'UPDATED_SOLUTION_FORM':
@@ -81,6 +91,18 @@ function reducer(state = {
       })
     default: return state
   }
+}
+
+function parseHash(url) {
+  let parsed = ''
+  const validHashes = ['home', 'challenge', 'submit-challenge']
+  const views = ['challengeList', 'challengeView', 'submitForm']
+  validHashes.forEach((hash, index) => {
+    if (hash === url) {
+      parsed = views[index]
+    }
+  })
+  return parsed || 'home'
 }
 
 export default createStore(reducer)
