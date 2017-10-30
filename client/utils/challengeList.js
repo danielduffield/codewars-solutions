@@ -86,7 +86,7 @@ class ChallengeList extends React.Component {
               return (
                 <tr key={index}>
                   <ChallengeName className={index % 2 === 1 ? 'dark-row' : ''}>
-                    <ChallengeLink href={'#'} data-id={challenge.id} onClick={this.updateSelected}>
+                    <ChallengeLink href={'#challenge'} data-id={challenge.id}>
                       {challenge.name}
                     </ChallengeLink>
                   </ChallengeName>
