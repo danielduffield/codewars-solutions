@@ -6,17 +6,8 @@ class SolutionSubmitForm extends React.Component {
   constructor(props) {
     super(props)
 
-    this.updateView = this.updateView.bind(this)
     this.submitSolution = this.submitSolution.bind(this)
     this.updateSolutionForm = this.updateSolutionForm.bind(this)
-  }
-  updateView(event) {
-    this.props.dispatch({
-      type: 'UPDATED_VIEW',
-      payload: {
-        text: event.target.dataset.view
-      }
-    })
   }
   updateSolutionForm(event) {
     this.props.dispatch({
