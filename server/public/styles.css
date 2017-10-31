@@ -66,4 +66,5 @@ thead {
 
 .title-link:focus {
   text-decoration: none;
+  color: currentcolor;
 }
