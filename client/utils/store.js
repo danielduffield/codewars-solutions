@@ -113,8 +113,8 @@ function reducer(state = {
 
 function parseHash(url) {
   let parsed = ''
-  const validHashes = ['home', 'challenge', 'submit-challenge']
-  const views = ['challengeList', 'challengeView', 'submitForm']
+  const validHashes = ['home', 'challenge', 'submit-challenge', 'submit-solution']
+  const views = ['challengeList', 'challengeView', 'submitForm', 'solutionForm']
   validHashes.forEach((hash, index) => {
     if (hash === url.split('?')[0]) {
       parsed = views[index]
