@@ -5,16 +5,7 @@ import { connect } from 'react-redux'
 class ChallengeView extends React.Component {
   constructor(props) {
     super(props)
-    this.updateView = this.updateView.bind(this)
     this.loadSolution = this.loadSolution.bind(this)
-  }
-  updateView(event) {
-    this.props.dispatch({
-      type: 'UPDATED_VIEW',
-      payload: {
-        text: event.target.dataset.view
-      }
-    })
   }
   loadSolution() {
     this.props.dispatch({
@@ -65,12 +56,10 @@ class ChallengeView extends React.Component {
         </ChallengeContainer>
         <ButtonContainer className="col-sm-6 col-sm-offset-3">
           <a href="#submit-challenge">
-            <button type="button" className="btn btn-default challenge-view-btn"
-              onClick={this.updateView} data-view="submitForm">Submit a New Challenge.</button>
+            <button type="button" className="btn btn-default challenge-view-btn">Submit a New Challenge.</button>
           </a>
           <SubmitButton type="button"
-            className={this.props.selected.solution ? 'hidden' : 'btn btn-default challenge-view-btn'}
-            onClick={this.updateView} data-view="solutionForm">Submit a Solution.</SubmitButton>
+            className={this.props.selected.solution ? 'hidden' : 'btn btn-default challenge-view-btn'}>Submit a Solution.</SubmitButton>
           <SubmitButton type="button"
             className={this.props.selected.solution && !this.props.solutionLoaded
               ? 'btn btn-default challenge-view-btn' : 'hidden'}
