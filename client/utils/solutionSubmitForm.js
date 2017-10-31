@@ -46,8 +46,9 @@ class SolutionSubmitForm extends React.Component {
           <SolutionTextarea className="code-text" name="solution-textarea"
             value={this.props.solutionForm} onChange={this.updateSolutionForm} required>
           </SolutionTextarea>
-          <button type="button" className="btn btn-default challenge-view-btn"
-            onClick={this.updateView} data-view="challengeView">Cancel</button>
+          <a href={'#challenge?' + this.props.selected.challenge.id}>
+            <button type="button" className="btn btn-default challenge-view-btn">Cancel</button>
+          </a>
           <SubmitButton type="submit" className="btn btn-default challenge-view-btn"
             data-view="challengeView">Submit</SubmitButton>
         </form>
