@@ -8,19 +8,10 @@ import fetchChallenge from './fetchChallenge.js'
 class ChallengeSubmitForm extends React.Component {
   constructor(props) {
     super(props)
-    this.updateView = this.updateView.bind(this)
     this.processForm = this.processForm.bind(this)
     this.handleUrlSubmission = this.handleUrlSubmission.bind(this)
     this.updateUrlForm = this.updateUrlForm.bind(this)
     this.updateChallengeList = this.updateChallengeList.bind(this)
-  }
-  updateView(event) {
-    this.props.dispatch({
-      type: 'UPDATED_VIEW',
-      payload: {
-        text: event.target.dataset.view
-      }
-    })
   }
   processForm(form, fieldId) {
     return form.get(fieldId)
