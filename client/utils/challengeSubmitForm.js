@@ -78,8 +78,9 @@ class ChallengeSubmitForm extends React.Component {
             </span>
           </div>
         </UrlForm>
-        <button className="btn btn-default"
-          onClick={this.updateView} data-view="challengeList">Return to Challenge List</button>
+        <a href="#">
+          <button className="btn btn-default">Return to Challenge List</button>
+        </a>
       </SubmitFormContainer>
     )
   }
