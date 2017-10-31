@@ -58,8 +58,10 @@ class ChallengeView extends React.Component {
           <a href="#submit-challenge">
             <button type="button" className="btn btn-default challenge-view-btn">Submit a New Challenge.</button>
           </a>
-          <SubmitButton type="button"
-            className={this.props.selected.solution ? 'hidden' : 'btn btn-default challenge-view-btn'}>Submit a Solution.</SubmitButton>
+          <a href="#submit-solution">
+            <SubmitButton type="button"
+              className={this.props.selected.solution ? 'hidden' : 'btn btn-default challenge-view-btn'}>Submit a Solution.</SubmitButton>
+          </a>
           <SubmitButton type="button"
             className={this.props.selected.solution && !this.props.solutionLoaded
               ? 'btn btn-default challenge-view-btn' : 'hidden'}
