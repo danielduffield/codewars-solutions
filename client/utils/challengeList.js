@@ -12,7 +12,34 @@ class ChallengeList extends React.Component {
     this.hasBeenFetched = this.hasBeenFetched.bind(this)
     this.dispatchUpdate = this.dispatchUpdate.bind(this)
   }
-
+  componentDidMount() {
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash.replace('#', '')
+      if (hash.startsWith('challenge?')) {
+        const challengeIndex = this.props.challenges.findIndex(challenge => {
+          return challenge.id === hash.replace('challenge?', '')
+        })
+        const challengeName = this.props.challenges[challengeIndex].name
+        fetchSolution(challengeName).then(currentSolution => {
+          this.props.dispatch({
+            type: 'HASH_CHANGED',
+            payload: {
+              hash,
+              solution: currentSolution
+            }
+          })
+        })
+      }
+      else {
+        this.props.dispatch({
+          type: 'HASH_CHANGED',
+          payload: {
+            hash
+          }
+        })
+      }
+    })
+  }
   hasBeenFetched(challenge) {
     const fetchedIndex = this.props.fetchedData.findIndex(data => data.challenge.id === challenge.id)
     console.log('HAS BEEN FETCHED: ', fetchedIndex !== -1)
