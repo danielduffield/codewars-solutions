@@ -57,6 +57,7 @@ function reducer(state = {
       if (selectedId) {
         const selectedIndex = state.fetchedData.findIndex(data => data.challenge.id === selectedId)
         selectedChallenge = state.fetchedData[selectedIndex]
+        if (action.payload.solution) selectedChallenge.solution = action.payload.solution.solution
       }
       return Object.assign({}, state,
         {
@@ -65,7 +66,8 @@ function reducer(state = {
           contact: {
             input: '',
             selected: ''
-          }
+          },
+          solutionLoaded: false
         })
     case 'UPDATED_URL_FORM':
       return Object.assign({}, state, { urlForm: action.payload.text })
