@@ -34,12 +34,14 @@ function reducer(state = {
 }, action) {
   switch (action.type) {
     case 'RECEIVED_FETCHED_DATA':
+      console.log('FETCHED DATA ', action.payload)
       const parsedHash = parseHash(action.payload.hash)
       let selected = null
       if (parsedHash.selectedId) {
         const selectedIndex = action.payload.fetched.findIndex(data => data.challenge.id === parsedHash.selectedId)
         selected = action.payload.fetched[selectedIndex]
         console.log(parsedHash.selectedId, selectedIndex, selected)
+        selected.solution = action.payload.solution.solution
       }
       return Object.assign({}, state, {
         fetchedData: action.payload.fetched,
