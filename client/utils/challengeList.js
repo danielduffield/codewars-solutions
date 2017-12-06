@@ -2,33 +2,41 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import socket from './socket-connection'
 import fetchSolution from './fetchSolution.js'
 import fetchChallenge from './fetchChallenge.js'
 
 class ChallengeList extends React.Component {
   constructor(props) {
     super(props)
-    this.updateView = this.updateView.bind(this)
     this.updateSelected = this.updateSelected.bind(this)
     this.hasBeenFetched = this.hasBeenFetched.bind(this)
     this.dispatchUpdate = this.dispatchUpdate.bind(this)
   }
   componentDidMount() {
-    socket.on('fetchedData', fetchedChallenges => {
-      const challengeList = fetchedChallenges.map(challengeData => challengeData.challenge)
-      const fetched = fetchedChallenges.filter(challengeData => challengeData.description)
-      this.props.dispatch({
-        type: 'RECEIVED_FETCHED_DATA',
-        payload: { fetched, challengeList }
-      })
-    })
-  }
-  updateView(event) {
-    this.props.dispatch({
-      type: 'UPDATED_VIEW',
-      payload: {
-        text: event.target.dataset.view
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash.replace('#', '')
+      if (hash.startsWith('challenge?')) {
+        const challengeIndex = this.props.challenges.findIndex(challenge => {
+          return challenge.id === hash.replace('challenge?', '')
+        })
+        const challengeName = this.props.challenges[challengeIndex].name
+        fetchSolution(challengeName).then(currentSolution => {
+          this.props.dispatch({
+            type: 'HASH_CHANGED',
+            payload: {
+              hash,
+              solution: currentSolution
+            }
+          })
+        })
+      }
+      else {
+        this.props.dispatch({
+          type: 'HASH_CHANGED',
+          payload: {
+            hash
+          }
+        })
       }
     })
   }
@@ -86,7 +94,7 @@ class ChallengeList extends React.Component {
               return (
                 <tr key={index}>
                   <ChallengeName className={index % 2 === 1 ? 'dark-row' : ''}>
-                    <ChallengeLink href={'#'} data-id={challenge.id} onClick={this.updateSelected}>
+                    <ChallengeLink href={'#challenge?' + challenge.id} data-id={challenge.id}>
                       {challenge.name}
                     </ChallengeLink>
                   </ChallengeName>
@@ -102,8 +110,9 @@ class ChallengeList extends React.Component {
           </tbody>
         </table>
         <p className="text-center">*Difficulty increases at lower Kyu ratings</p>
-        <button type="button" className="btn btn-default"
-          onClick={this.updateView} data-view="submitForm">Submit a new challenge.</button>
+        <a href="#submit-challenge">
+          <button type="button" className="btn btn-default">Submit a new challenge.</button>
+        </a>
       </div>
     )
   }

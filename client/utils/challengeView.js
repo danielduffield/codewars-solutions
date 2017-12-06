@@ -5,16 +5,7 @@ import { connect } from 'react-redux'
 class ChallengeView extends React.Component {
   constructor(props) {
     super(props)
-    this.updateView = this.updateView.bind(this)
     this.loadSolution = this.loadSolution.bind(this)
-  }
-  updateView(event) {
-    this.props.dispatch({
-      type: 'UPDATED_VIEW',
-      payload: {
-        text: event.target.dataset.view
-      }
-    })
   }
   loadSolution() {
     this.props.dispatch({
@@ -64,17 +55,21 @@ class ChallengeView extends React.Component {
           </ChallengeDescription>
         </ChallengeContainer>
         <ButtonContainer className="col-sm-6 col-sm-offset-3">
-          <button type="button" className="btn btn-default challenge-view-btn"
-            onClick={this.updateView} data-view="submitForm">Submit a New Challenge.</button>
-          <SubmitButton type="button"
-            className={this.props.selected.solution ? 'hidden' : 'btn btn-default challenge-view-btn'}
-            onClick={this.updateView} data-view="solutionForm">Submit a Solution.</SubmitButton>
+          <a href="#submit-challenge">
+            <button type="button" className="btn btn-default challenge-view-btn">Submit a New Challenge.</button>
+          </a>
+          <a href="#submit-solution">
+            <SubmitButton type="button"
+              className={this.props.selected.solution ? 'hidden' : 'btn btn-default challenge-view-btn'}>Submit a Solution.</SubmitButton>
+          </a>
           <SubmitButton type="button"
             className={this.props.selected.solution && !this.props.solutionLoaded
               ? 'btn btn-default challenge-view-btn' : 'hidden'}
             onClick={this.loadSolution} data-view="solutionForm">View the Solution.</SubmitButton>
-          <SubmitButton className={'btn btn-default challenge-view-btn' + (this.props.solutionLoaded ? ' pull-right' : '')}
-            onClick={this.updateView} data-view="challengeList">Return to Challenge List</SubmitButton>
+          <a href="#">
+            <SubmitButton className={'btn btn-default challenge-view-btn' + (this.props.solutionLoaded ? ' pull-right' : '')}>
+              Return to Challenge List</SubmitButton>
+          </a>
         </ButtonContainer>
       </div>
     )

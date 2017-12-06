@@ -34,9 +34,41 @@ function reducer(state = {
 }, action) {
   switch (action.type) {
     case 'RECEIVED_FETCHED_DATA':
-      return Object.assign({}, state, { fetchedData: action.payload.fetched, challenges: action.payload.challengeList })
+      console.log('FETCHED DATA ', action.payload)
+      const parsedHash = parseHash(action.payload.hash)
+      let selected = null
+      if (parsedHash.selectedId) {
+        const selectedIndex = action.payload.fetched.findIndex(data => data.challenge.id === parsedHash.selectedId)
+        selected = action.payload.fetched[selectedIndex]
+        console.log(parsedHash.selectedId, selectedIndex, selected)
+        selected.solution = action.payload.solution.solution
+      }
+      return Object.assign({}, state, {
+        fetchedData: action.payload.fetched,
+        challenges: action.payload.challengeList,
+        view: parsedHash.view || state.view,
+        selectedChallenge: selected || state.selectedChallenge
+      })
     case 'UPDATED_VIEW':
       return Object.assign({}, state, { view: action.payload.text, urlForm: '' })
+    case 'HASH_CHANGED':
+      const { view, selectedId } = parseHash(action.payload.hash)
+      let selectedChallenge = null
+      if (selectedId) {
+        const selectedIndex = state.fetchedData.findIndex(data => data.challenge.id === selectedId)
+        selectedChallenge = state.fetchedData[selectedIndex]
+        if (action.payload.solution) selectedChallenge.solution = action.payload.solution.solution
+      }
+      return Object.assign({}, state,
+        {
+          view: (view || state.view),
+          selectedChallenge: selectedChallenge || state.selectedChallenge,
+          contact: {
+            input: '',
+            selected: ''
+          },
+          solutionLoaded: false
+        })
     case 'UPDATED_URL_FORM':
       return Object.assign({}, state, { urlForm: action.payload.text })
     case 'UPDATED_SOLUTION_FORM':
@@ -80,6 +112,23 @@ function reducer(state = {
         solutionForm: ''
       })
     default: return state
+  }
+}
+
+function parseHash(url) {
+  let parsed = ''
+  const validHashes = ['home', 'challenge', 'submit-challenge', 'submit-solution']
+  const views = ['challengeList', 'challengeView', 'submitForm', 'solutionForm']
+  validHashes.forEach((hash, index) => {
+    if (hash === url.split('?')[0]) {
+      parsed = views[index]
+    }
+  })
+  let selectedId = ''
+  if (parsed === 'challengeView') selectedId = url.replace('challenge?', '')
+  return {
+    view: parsed || 'challengeList',
+    selectedId
   }
 }
 

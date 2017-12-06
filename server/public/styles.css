@@ -54,3 +54,17 @@ thead {
 .dark-row {
   background-color: lightgrey;
 }
+
+.title-link {
+  text-decoration: none;
+  color: currentcolor;
+}
+
+.title-link:hover {
+  text-decoration: none;
+}
+
+.title-link:focus {
+  text-decoration: none;
+  color: currentcolor;
+}
