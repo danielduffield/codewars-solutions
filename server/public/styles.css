@@ -30,16 +30,11 @@ thead {
 #background {
   background-color: black;
   height: 100%;
-  width: 100%;
-  position: fixed;
-  overflow-y: scroll;
 }
 
 #foreground {
   background-color: whitesmoke;
   height: 100%;
-  position: fixed;
-  overflow-y: scroll;
 }
 
 .code-text {
