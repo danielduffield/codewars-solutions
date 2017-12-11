@@ -111,7 +111,7 @@ class ChallengeList extends React.Component {
         </table>
         <p className="text-center">*Difficulty increases at lower Kyu ratings</p>
         <a href="#submit-challenge">
-          <button type="button" className="btn btn-default">Submit a new challenge.</button>
+          <ChallengeSubmit type="button" className="btn btn-default">Submit a new challenge.</ChallengeSubmit>
         </a>
       </div>
     )
@@ -133,6 +133,10 @@ const ChallengeAuthor = styled.td`
 
 const ChallengeDifficulty = styled.td`
   width: 15%;
+`
+
+const ChallengeSubmit = styled.button`
+  margin-bottom: 50px;
 `
 
 function mapStateToProps(state) {
