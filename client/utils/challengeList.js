@@ -90,6 +90,8 @@ class ChallengeList extends React.Component {
     })
   }
   render() {
+    console.log(this.props.challenges, this.props.currentSort)
+    console.log(this.props.challenges.slice().map(challenge => challenge.name).sort((a, b) => a < b))
     return (
       <div className={this.props.view === 'challengeList' ? 'text-center' : 'hidden'}>
         <table className="table table-bordered">
@@ -101,23 +103,28 @@ class ChallengeList extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.challenges.map((challenge, index) => {
-              return (
-                <tr key={index}>
-                  <ChallengeName className={index % 2 === 1 ? 'dark-row' : ''}>
-                    <ChallengeLink href={'#challenge?' + challenge.id} data-id={challenge.id}>
-                      {challenge.name}
-                    </ChallengeLink>
-                  </ChallengeName>
-                  <ChallengeAuthor className={index % 2 === 1 ? 'dark-row' : ''}>
-                    <ChallengeLink href={'https://www.codewars.com/users/' + challenge.authorUrl}>
-                      {challenge.author}
-                    </ChallengeLink>
-                  </ChallengeAuthor>
-                  <ChallengeDifficulty className={index % 2 === 1 ? 'dark-row' : ''}>{challenge.difficulty}</ChallengeDifficulty>
-                </tr>
-              )
-            })}
+            {this.props.challenges
+              .slice()
+              .sort((a, b) => this.props.currentSort.isAscending
+                  ? (a[this.props.currentSort.target].toUpperCase() > b[this.props.currentSort.target].toUpperCase() ? 1 : -1)
+                  : (a[this.props.currentSort.target].toUpperCase() > b[this.props.currentSort.target].toUpperCase() ? -1 : 1))
+              .map((challenge, index) => {
+                return (
+                  <tr key={index}>
+                    <ChallengeName className={index % 2 === 1 ? 'dark-row' : ''}>
+                      <ChallengeLink href={'#challenge?' + challenge.id} data-id={challenge.id}>
+                        {challenge.name}
+                      </ChallengeLink>
+                    </ChallengeName>
+                    <ChallengeAuthor className={index % 2 === 1 ? 'dark-row' : ''}>
+                      <ChallengeLink href={'https://www.codewars.com/users/' + challenge.authorUrl}>
+                        {challenge.author}
+                      </ChallengeLink>
+                    </ChallengeAuthor>
+                    <ChallengeDifficulty className={index % 2 === 1 ? 'dark-row' : ''}>{challenge.difficulty}</ChallengeDifficulty>
+                  </tr>
+                )
+              })}
           </tbody>
         </table>
         <p className="text-center">*Difficulty increases at lower Kyu ratings</p>
