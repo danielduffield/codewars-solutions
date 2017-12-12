@@ -11,6 +11,7 @@ class ChallengeList extends React.Component {
     this.updateSelected = this.updateSelected.bind(this)
     this.hasBeenFetched = this.hasBeenFetched.bind(this)
     this.dispatchUpdate = this.dispatchUpdate.bind(this)
+    this.updateSort = this.updateSort.bind(this)
   }
   componentDidMount() {
     window.addEventListener('hashchange', () => {
@@ -78,15 +79,18 @@ class ChallengeList extends React.Component {
       })
     }
   }
+  updateSort(event) {
+    console.log(event.target.dataset.col)
+  }
   render() {
     return (
       <div className={this.props.view === 'challengeList' ? 'text-center' : 'hidden'}>
         <table className="table table-bordered">
           <thead>
-            <tr className="thead-row">
-              <th className="text-center challenge-name">Challenge Name</th>
-              <th className="text-center challenge-info">Author</th>
-              <th className="text-center challenge-info">Difficulty*</th>
+            <tr className="thead-row" onClick={this.updateSort}>
+              <th className="text-center challenge-name" data-col="name">Challenge Name</th>
+              <th className="text-center challenge-info" data-col="author">Author</th>
+              <th className="text-center challenge-info" data-col="difficulty">Difficulty*</th>
             </tr>
           </thead>
           <tbody>
