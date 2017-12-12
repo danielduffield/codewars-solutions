@@ -30,7 +30,7 @@ function reducer(state = {
   },
   currentSort: {
     target: 'name',
-    orient: 'ASC'
+    isAscending: true
   },
   challenges: [],
   fetchedData: [],
