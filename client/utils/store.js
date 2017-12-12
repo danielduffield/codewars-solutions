@@ -65,7 +65,11 @@ function reducer(state = {
           selectedChallenge: selectedChallenge || state.selectedChallenge,
           contact: {
             input: '',
-            selected: ''
+            selected: '',
+            currentSort: {
+              target: 'name',
+              orient: 'ASC'
+            }
           },
           solutionLoaded: false
         })
@@ -110,6 +114,13 @@ function reducer(state = {
         fetchedData: [...state.fetchedData, updated], // REPLACE OLD CHALLENGE, NOT SUBMIT NEW CHALLENGE
         solutionLoaded: true,
         solutionForm: ''
+      })
+    case 'SORTED_LIST':
+      return Object.assign({}, state, {
+        currentSort: {
+          target: action.payload.target,
+          orient: action.payload.orient
+        }
       })
     default: return state
   }
