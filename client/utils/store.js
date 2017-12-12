@@ -28,6 +28,10 @@ function reducer(state = {
     description: '',
     solution: ''
   },
+  currentSort: {
+    target: 'name',
+    orient: 'ASC'
+  },
   challenges: [],
   fetchedData: [],
   solutionLoaded: false
@@ -65,11 +69,7 @@ function reducer(state = {
           selectedChallenge: selectedChallenge || state.selectedChallenge,
           contact: {
             input: '',
-            selected: '',
-            currentSort: {
-              target: 'name',
-              orient: 'ASC'
-            }
+            selected: ''
           },
           solutionLoaded: false
         })
@@ -119,7 +119,7 @@ function reducer(state = {
       return Object.assign({}, state, {
         currentSort: {
           target: action.payload.target,
-          orient: action.payload.orient
+          isAscending: action.payload.isAscending
         }
       })
     default: return state
