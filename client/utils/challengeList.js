@@ -80,7 +80,14 @@ class ChallengeList extends React.Component {
     }
   }
   updateSort(event) {
-    console.log(event.target.dataset.col)
+    const target = event.target.dataset.col
+    const isAscending = event.target.dataset.col === this.props.currentSort.target
+      ? !this.props.currentSort.isAscending
+      : true
+    this.props.dispatch({
+      type: 'SORTED_LIST',
+      payload: { target, isAscending }
+    })
   }
   render() {
     return (
@@ -147,7 +154,8 @@ function mapStateToProps(state) {
   return {
     view: state.view,
     challenges: state.challenges,
-    fetchedData: state.fetchedData
+    fetchedData: state.fetchedData,
+    currentSort: state.currentSort
   }
 }
 
