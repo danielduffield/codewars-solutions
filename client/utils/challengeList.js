@@ -12,6 +12,8 @@ class ChallengeList extends React.Component {
     this.hasBeenFetched = this.hasBeenFetched.bind(this)
     this.dispatchUpdate = this.dispatchUpdate.bind(this)
     this.updateSort = this.updateSort.bind(this)
+    this.tableColumns = ['name', 'author', 'difficulty']
+    this.tableHeadings = ['Challenge Name', 'Author', 'Difficulty']
   }
   componentDidMount() {
     window.addEventListener('hashchange', () => {
@@ -95,9 +97,14 @@ class ChallengeList extends React.Component {
         <table className="table table-bordered">
           <thead>
             <tr className="thead-row" onClick={this.updateSort}>
-              <th className="text-center challenge-name" data-col="name">Challenge Name</th>
-              <th className="text-center challenge-info" data-col="author">Author</th>
-              <th className="text-center challenge-info" data-col="difficulty">Difficulty*</th>
+              {this.tableColumns.map((col, index) =>
+                    <th key={index} className="text-center" data-col={col}>
+                      {this.tableHeadings[index]}
+                      <i className={'sort-icon fa ' + (this.props.currentSort.target === col
+                        ? (this.props.currentSort.isAscending ? 'fa-sort-asc' : 'fa-sort-desc')
+                        : 'fa-sort')}></i>
+                    </th>
+                  )}
             </tr>
           </thead>
           <tbody>
