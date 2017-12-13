@@ -98,7 +98,7 @@ class ChallengeList extends React.Component {
           <thead>
             <tr className="thead-row" onClick={this.updateSort}>
               {this.tableColumns.map((col, index) =>
-                    <th key={index} className="text-center" data-col={col}>
+                    <th key={index} className="text-center sortable" data-col={col}>
                       {this.tableHeadings[index]}
                       <i className={'sort-icon fa ' + (this.props.currentSort.target === col
                         ? (this.props.currentSort.isAscending ? 'fa-sort-asc' : 'fa-sort-desc')
