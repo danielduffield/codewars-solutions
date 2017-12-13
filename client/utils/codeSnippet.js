@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import SyntaxHighlighter from 'react-syntax-highlighter'
-import { docco } from 'react-syntax-highlighter/styles/hljs'
+import { atelierSavannaDark } from 'react-syntax-highlighter/styles/hljs'
 
 class CodeSnippet extends React.Component {
   render() {
-    return <SyntaxHighlighter language='javascript' style={docco}>{this.props.selected.solution}</SyntaxHighlighter>
+    return <SyntaxHighlighter language='javascript' style={atelierSavannaDark}>{this.props.selected.solution}</SyntaxHighlighter>
   }
 
 }
