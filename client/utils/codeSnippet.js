@@ -12,8 +12,7 @@ class CodeSnippet extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    selected: state.selectedChallenge,
-    solutionLoaded: state.solutionLoaded
+    selected: state.selectedChallenge
   }
 }
 
