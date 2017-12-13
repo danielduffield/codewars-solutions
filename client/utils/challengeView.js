@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 
+import CodeSnippet from './codeSnippet.js'
+
 class ChallengeView extends React.Component {
   constructor(props) {
     super(props)
@@ -47,10 +49,7 @@ class ChallengeView extends React.Component {
           <ChallengeSubtitle>Challenge Solution</ChallengeSubtitle>
           <ChallengeDescription>
             {this.props.selected.solution
-              ? this.props.selected.solution.split('\n').map((line, index) => {
-                line = line.replace(/ {2}/g, '    ')
-                return <p className="code-text" key={index}>{line}</p>
-              })
+              ? <CodeSnippet />
               : 'No solution found'}
           </ChallengeDescription>
         </ChallengeContainer>
