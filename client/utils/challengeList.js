@@ -90,8 +90,6 @@ class ChallengeList extends React.Component {
     })
   }
   render() {
-    console.log(this.props.challenges, this.props.currentSort)
-    console.log(this.props.challenges.slice().map(challenge => challenge.name).sort((a, b) => a < b))
     return (
       <div className={this.props.view === 'challengeList' ? 'text-center' : 'hidden'}>
         <table className="table table-bordered">
