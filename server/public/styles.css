@@ -30,16 +30,11 @@ thead {
 #background {
   background-color: black;
   height: 100%;
-  width: 100%;
-  position: fixed;
-  overflow-y: scroll;
 }
 
 #foreground {
   background-color: whitesmoke;
   height: 100%;
-  position: fixed;
-  overflow-y: scroll;
 }
 
 .code-text {
@@ -67,4 +62,16 @@ thead {
 .title-link:focus {
   text-decoration: none;
   color: currentcolor;
+}
+
+.sort-icon {
+  margin-left: 10px;
+}
+
+.sortable {
+  cursor: pointer;
+}
+
+.sortable:hover {
+  background-color: lightblue;
 }

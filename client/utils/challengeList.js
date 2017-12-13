@@ -11,6 +11,9 @@ class ChallengeList extends React.Component {
     this.updateSelected = this.updateSelected.bind(this)
     this.hasBeenFetched = this.hasBeenFetched.bind(this)
     this.dispatchUpdate = this.dispatchUpdate.bind(this)
+    this.updateSort = this.updateSort.bind(this)
+    this.tableColumns = ['name', 'author', 'difficulty']
+    this.tableHeadings = ['Challenge Name', 'Author', 'Difficulty']
   }
   componentDidMount() {
     window.addEventListener('hashchange', () => {
@@ -78,40 +81,60 @@ class ChallengeList extends React.Component {
       })
     }
   }
+  updateSort(event) {
+    const target = event.target.dataset.col
+    const isAscending = event.target.dataset.col === this.props.currentSort.target
+      ? !this.props.currentSort.isAscending
+      : true
+    this.props.dispatch({
+      type: 'SORTED_LIST',
+      payload: { target, isAscending }
+    })
+  }
   render() {
     return (
       <div className={this.props.view === 'challengeList' ? 'text-center' : 'hidden'}>
         <table className="table table-bordered">
           <thead>
-            <tr className="thead-row">
-              <th className="text-center challenge-name">Challenge Name</th>
-              <th className="text-center challenge-info">Author</th>
-              <th className="text-center challenge-info">Difficulty*</th>
+            <tr className="thead-row" onClick={this.updateSort}>
+              {this.tableColumns.map((col, index) =>
+                    <th key={index} className="text-center sortable" data-col={col}>
+                      {this.tableHeadings[index]}
+                      <i className={'sort-icon fa ' + (this.props.currentSort.target === col
+                        ? (this.props.currentSort.isAscending ? 'fa-sort-asc' : 'fa-sort-desc')
+                        : 'fa-sort')}></i>
+                    </th>
+                  )}
             </tr>
           </thead>
           <tbody>
-            {this.props.challenges.map((challenge, index) => {
-              return (
-                <tr key={index}>
-                  <ChallengeName className={index % 2 === 1 ? 'dark-row' : ''}>
-                    <ChallengeLink href={'#challenge?' + challenge.id} data-id={challenge.id}>
-                      {challenge.name}
-                    </ChallengeLink>
-                  </ChallengeName>
-                  <ChallengeAuthor className={index % 2 === 1 ? 'dark-row' : ''}>
-                    <ChallengeLink href={'https://www.codewars.com/users/' + challenge.authorUrl}>
-                      {challenge.author}
-                    </ChallengeLink>
-                  </ChallengeAuthor>
-                  <ChallengeDifficulty className={index % 2 === 1 ? 'dark-row' : ''}>{challenge.difficulty}</ChallengeDifficulty>
-                </tr>
-              )
-            })}
+            {this.props.challenges
+              .slice()
+              .sort((a, b) => this.props.currentSort.isAscending
+                  ? (a[this.props.currentSort.target].toUpperCase() > b[this.props.currentSort.target].toUpperCase() ? 1 : -1)
+                  : (a[this.props.currentSort.target].toUpperCase() > b[this.props.currentSort.target].toUpperCase() ? -1 : 1))
+              .map((challenge, index) => {
+                return (
+                  <tr key={index}>
+                    <ChallengeName className={index % 2 === 1 ? 'dark-row' : ''}>
+                      <ChallengeLink href={'#challenge?' + challenge.id} data-id={challenge.id}>
+                        {challenge.name}
+                      </ChallengeLink>
+                    </ChallengeName>
+                    <ChallengeAuthor className={index % 2 === 1 ? 'dark-row' : ''}>
+                      <ChallengeLink href={'https://www.codewars.com/users/' + challenge.authorUrl}>
+                        {challenge.author}
+                      </ChallengeLink>
+                    </ChallengeAuthor>
+                    <ChallengeDifficulty className={index % 2 === 1 ? 'dark-row' : ''}>{challenge.difficulty}</ChallengeDifficulty>
+                  </tr>
+                )
+              })}
           </tbody>
         </table>
         <p className="text-center">*Difficulty increases at lower Kyu ratings</p>
         <a href="#submit-challenge">
-          <button type="button" className="btn btn-default">Submit a new challenge.</button>
+          <ChallengeSubmit type="button" className="btn btn-default">Submit a new challenge.</ChallengeSubmit>
         </a>
       </div>
     )
@@ -135,11 +158,16 @@ const ChallengeDifficulty = styled.td`
   width: 15%;
 `
 
+const ChallengeSubmit = styled.button`
+  margin-bottom: 50px;
+`
+
 function mapStateToProps(state) {
   return {
     view: state.view,
     challenges: state.challenges,
-    fetchedData: state.fetchedData
+    fetchedData: state.fetchedData,
+    currentSort: state.currentSort
   }
 }
 

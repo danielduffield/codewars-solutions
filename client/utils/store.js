@@ -28,6 +28,10 @@ function reducer(state = {
     description: '',
     solution: ''
   },
+  currentSort: {
+    target: 'name',
+    isAscending: true
+  },
   challenges: [],
   fetchedData: [],
   solutionLoaded: false
@@ -110,6 +114,13 @@ function reducer(state = {
         fetchedData: [...state.fetchedData, updated], // REPLACE OLD CHALLENGE, NOT SUBMIT NEW CHALLENGE
         solutionLoaded: true,
         solutionForm: ''
+      })
+    case 'SORTED_LIST':
+      return Object.assign({}, state, {
+        currentSort: {
+          target: action.payload.target,
+          isAscending: action.payload.isAscending
+        }
       })
     default: return state
   }
