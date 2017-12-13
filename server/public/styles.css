@@ -63,3 +63,15 @@ thead {
   text-decoration: none;
   color: currentcolor;
 }
+
+.sort-icon {
+  margin-left: 10px;
+}
+
+.sortable {
+  cursor: pointer;
+}
+
+.sortable:hover {
+  background-color: lightblue;
+}
